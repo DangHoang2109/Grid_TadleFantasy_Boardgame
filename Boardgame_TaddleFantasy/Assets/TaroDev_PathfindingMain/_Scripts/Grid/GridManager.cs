@@ -15,16 +15,21 @@ namespace Tarodev_Pathfinding._Scripts.Grid {
         [SerializeField] private ScriptableGrid _scriptableGrid;
         [SerializeField] private bool _drawConnections;
 
+        public static System.Action onGridGeneratedComplete;
+
         public Dictionary<Vector2, NodeBase> Tiles { get; private set; }
 
         private NodeBase _playerNodeBase, _goalNodeBase;
         private Unit _spawnedPlayer, _spawnedGoal;
 
+        public int GridWidth => _scriptableGrid.Width();
+        public int GridHeight => _scriptableGrid.Height();
         void Awake() => Instance = this;
 
         private void Start() {
             Tiles = _scriptableGrid.GenerateGrid();
-         
+
+            onGridGeneratedComplete?.Invoke();
             foreach (var tile in Tiles.Values) tile.CacheNeighbors();
 
             SpawnUnits();
