@@ -1,0 +1,5 @@
+*.sln
+*.vsconfig
+Boardgame_TaddleFantasy/Library/
+Boardgame_TaddleFantasy/Logs/
+Boardgame_TaddleFantasy/Temp/
