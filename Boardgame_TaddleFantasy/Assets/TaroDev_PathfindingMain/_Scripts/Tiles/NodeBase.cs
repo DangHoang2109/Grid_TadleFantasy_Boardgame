@@ -7,27 +7,31 @@ using Random = UnityEngine.Random;
 namespace _Scripts.Tiles {
     public abstract class NodeBase : MonoBehaviour {
         [Header("References")] [SerializeField]
-        private Color _obstacleColor;
+        protected Color _obstacleColor;
 
-        [SerializeField] private Gradient _walkableColor;
+        [SerializeField] protected Gradient _walkableColor;
         [SerializeField] protected SpriteRenderer _renderer;
      
         public ICoords Coords;
         public float GetDistance(NodeBase other) => Coords.GetDistance(other.Coords); // Helper to reduce noise in pathfinding
-        public bool Walkable { get; private set; }
+        public bool Walkable { get; protected set; }
         private bool _selected;
-        private Color _defaultColor;
+        protected Color _defaultColor;
 
         public virtual void Init(bool walkable, ICoords coords) {
             Walkable = walkable;
 
-            _renderer.color = walkable ? _walkableColor.Evaluate(Random.Range(0f, 1f)) : _obstacleColor;
+            _renderer.color = walkable ? GetWalkableColor() : _obstacleColor;
             _defaultColor = _renderer.color;
 
             OnHoverTile += OnOnHoverTile;
 
             Coords = coords;
             transform.position = Coords.Pos;
+        }
+        public virtual Color GetWalkableColor()
+        {
+            return _walkableColor.Evaluate(Random.Range(0f, 1f));
         }
 
         public static event Action<NodeBase> OnHoverTile;

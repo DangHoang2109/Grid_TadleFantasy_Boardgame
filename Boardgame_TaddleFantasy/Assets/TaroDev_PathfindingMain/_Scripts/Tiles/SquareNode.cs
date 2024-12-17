@@ -6,7 +6,7 @@ using UnityEngine;
 namespace _Scripts.Tiles {
     public class SquareNode : NodeBase
     {
-        private static readonly List<Vector2> Dirs = new List<Vector2>() {
+        protected static readonly List<Vector2> Dirs = new List<Vector2>() {
             new Vector2(0, 1), new Vector2(-1, 0), new Vector2(0, -1), new Vector2(1, 0),
             new Vector2(1, 1), new Vector2(1, -1), new Vector2(-1, -1), new Vector2(-1, 1)
         };
