@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerUnit : Unit
 {
+    public static System.Action OnPlayerMove;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,8 +22,14 @@ public class PlayerUnit : Unit
 
     void OnNodeClicked(NodeBase nodeClicked)
     {
-        this.transform.DOJump(nodeClicked.transform.position, 0.5f, 1, 0.2f).SetEase(Ease.InQuad);
-        if (nodeClicked is SquareTileOnBoardNode tileNode)
+        MoveToNode(nodeClicked);
+    }
+    public virtual void MoveToNode(NodeBase nodeDestination)
+    {
+        this.transform.DOJump(nodeDestination.transform.position, 0.5f, 1, 0.2f).SetEase(Ease.InQuad);
+        if (nodeDestination is SquareTileOnBoardNode tileNode)
             tileNode.Flip();
+
+        OnPlayerMove?.Invoke();
     }
 }
