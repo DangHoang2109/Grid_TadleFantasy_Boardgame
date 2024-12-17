@@ -5,9 +5,24 @@ using UnityEngine;
 
 public class SquareTileOnBoardNode : SquareNode
 {
-    [SerializeField] protected Color _backsideColor;
+    [SerializeField] protected Color _backsideColor, _choosingColor;
     public bool IsFaceUp { get; protected set; }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        PlayerMovement.OnNodeAddedToPlan -= OnChooseToPlan;
+        PlayerMovement.OnNodeAddedToPlan += OnChooseToPlan;
+    }
+    void OnChooseToPlan(NodeBase node)
+    {
+        if(node == this)
+        {
+            _renderer.color = _choosingColor;
+        }
+        
+    }
     public override void Init(bool walkable, ICoords coords)
     {
         base.Init(walkable, coords);

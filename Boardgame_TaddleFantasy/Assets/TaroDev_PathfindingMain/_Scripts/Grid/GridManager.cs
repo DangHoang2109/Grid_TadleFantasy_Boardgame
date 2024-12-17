@@ -49,7 +49,7 @@ namespace Tarodev_Pathfinding._Scripts.Grid {
         void SpawnUnits() {
             _playerNodeBase = Tiles.Where(t => t.Value.Walkable).OrderBy(t => Random.value).First().Value;
             _spawnedPlayer = Instantiate(_unitPrefab, _playerNodeBase.Coords.Pos, Quaternion.identity);
-            _spawnedPlayer.Init(_playerSprite);
+            _spawnedPlayer.Init(_playerSprite, _playerNodeBase);
 
             //_spawnedGoal = Instantiate(_unitPrefab, new Vector3(50, 50, 50), Quaternion.identity);
             //_spawnedGoal.Init(_goalSprite);

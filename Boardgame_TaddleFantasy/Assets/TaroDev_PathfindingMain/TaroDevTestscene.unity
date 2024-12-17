@@ -281,6 +281,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7341151215538218331, guid: 3e2b3382004a71946925a3e0938c28e2, type: 3}
+      propertyPath: _unitPrefab
+      value: 
+      objectReference: {fileID: 100580052236348025, guid: fc705744834f6f04d98fc16c8f9612bc, type: 3}
+    - target: {fileID: 7341151215538218331, guid: 3e2b3382004a71946925a3e0938c28e2, type: 3}
       propertyPath: _scriptableGrid
       value: 
       objectReference: {fileID: 11400000, guid: 77c19030c6bd2e849a117a633d4b1f08, type: 2}

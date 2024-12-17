@@ -6,30 +6,27 @@ using UnityEngine;
 
 public class PlayerUnit : Unit
 {
-    public static System.Action OnPlayerMove;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] PlayerMovement _myMovement;
+    private void OnEnable()
     {
-        NodeBase.OnHoverTile -= OnNodeClicked;
-        NodeBase.OnHoverTile += OnNodeClicked;
+        _myMovement = GetComponent<PlayerMovement>();
     }
-
-    // Update is called once per frame
-    void Update()
+    public override void Init(Sprite sprite, NodeBase node)
     {
-        
+        base.Init(sprite, node);
+        Debug.Log("PlayerUnit Init");
     }
-
-    void OnNodeClicked(NodeBase nodeClicked)
+    public override void SetStandingNode(NodeBase node)
     {
-        MoveToNode(nodeClicked);
+        base.SetStandingNode(node);
+        _myMovement.SetMeToNode(node);
     }
-    public virtual void MoveToNode(NodeBase nodeDestination)
+    public virtual Tween MoveToNode(NodeBase nodeDestination, System.Action onComplete = null)
     {
-        this.transform.DOJump(nodeDestination.transform.position, 0.5f, 1, 0.2f).SetEase(Ease.InQuad);
         if (nodeDestination is SquareTileOnBoardNode tileNode)
             tileNode.Flip();
 
-        OnPlayerMove?.Invoke();
+        return this.transform.DOJump(nodeDestination.transform.position, 0.5f, 1, 0.2f).SetEase(Ease.InQuad).OnComplete(()=> { onComplete?.Invoke(); });
+
     }
 }

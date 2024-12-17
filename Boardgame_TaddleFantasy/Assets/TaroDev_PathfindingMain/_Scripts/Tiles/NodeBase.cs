@@ -35,8 +35,8 @@ namespace _Scripts.Tiles {
         }
 
         public static event Action<NodeBase> OnHoverTile;
-        private void OnEnable() => OnHoverTile += OnOnHoverTile;
-        private void OnDisable() => OnHoverTile -= OnOnHoverTile;
+        protected virtual void OnEnable() => OnHoverTile += OnOnHoverTile;
+        protected virtual void OnDisable() => OnHoverTile -= OnOnHoverTile;
         private void OnOnHoverTile(NodeBase selected) => _selected = selected == this;
 
         protected virtual void OnMouseDown() {
@@ -51,6 +51,7 @@ namespace _Scripts.Tiles {
 
         [SerializeField] private TextMeshPro _gCostText, _hCostText;
         public List<NodeBase> Neighbors { get; protected set; }
+        public bool IsNeighbor(NodeBase other) => Neighbors.Contains(other);
         public NodeBase Connection { get; private set; }
         public float G { get; private set; }
         public float H { get; private set; }

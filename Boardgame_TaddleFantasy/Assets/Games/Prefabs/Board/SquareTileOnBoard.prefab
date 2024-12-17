@@ -92,6 +92,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 159944453272021110, guid: e5dba2efec6bdaa4684f0d233feb3e3b, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 159944453272021110, guid: e5dba2efec6bdaa4684f0d233feb3e3b, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 159944453272021110, guid: e5dba2efec6bdaa4684f0d233feb3e3b, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 159944453272021110, guid: e5dba2efec6bdaa4684f0d233feb3e3b, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6151833451350619875, guid: e5dba2efec6bdaa4684f0d233feb3e3b, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -214,6 +230,7 @@ MonoBehaviour:
   _gCostText: {fileID: 8897554603530163392}
   _hCostText: {fileID: 3214304450094515462}
   _backsideColor: {r: 0.46226418, g: 0.42368627, b: 0.21150768, a: 1}
+  _choosingColor: {r: 0.6392157, g: 1, b: 0.7921569, a: 1}
 --- !u!114 &3214304450094515462 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4777784757582201696, guid: e5dba2efec6bdaa4684f0d233feb3e3b, type: 3}
