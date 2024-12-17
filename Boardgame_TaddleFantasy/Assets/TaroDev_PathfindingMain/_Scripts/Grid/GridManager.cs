@@ -19,7 +19,7 @@ namespace Tarodev_Pathfinding._Scripts.Grid {
         public Dictionary<Vector2, NodeBase> Tiles { get; private set; }
 
         private NodeBase _playerNodeBase, _goalNodeBase;
-        private Unit _spawnedPlayer, _spawnedGoal;
+        private Unit _spawnedPlayer;//, _spawnedGoal;
 
         public int GridWidth => _scriptableGrid.Width();
         public int GridHeight => _scriptableGrid.Height();
@@ -39,7 +39,7 @@ namespace Tarodev_Pathfinding._Scripts.Grid {
 
         private void OnTileHover(NodeBase nodeBase) {
             _goalNodeBase = nodeBase;
-            _spawnedGoal.transform.position = _goalNodeBase.Coords.Pos;
+            //_spawnedGoal.transform.position = _goalNodeBase.Coords.Pos;
 
             //foreach (var t in Tiles.Values) t.RevertTile();
 
@@ -51,8 +51,8 @@ namespace Tarodev_Pathfinding._Scripts.Grid {
             _spawnedPlayer = Instantiate(_unitPrefab, _playerNodeBase.Coords.Pos, Quaternion.identity);
             _spawnedPlayer.Init(_playerSprite);
 
-            _spawnedGoal = Instantiate(_unitPrefab, new Vector3(50, 50, 50), Quaternion.identity);
-            _spawnedGoal.Init(_goalSprite);
+            //_spawnedGoal = Instantiate(_unitPrefab, new Vector3(50, 50, 50), Quaternion.identity);
+            //_spawnedGoal.Init(_goalSprite);
         }
 
         public NodeBase GetTileAtPosition(Vector2 pos) => Tiles.TryGetValue(pos, out var tile) ? tile : null;

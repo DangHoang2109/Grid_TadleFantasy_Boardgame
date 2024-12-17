@@ -35,12 +35,6 @@ public class SquareTileOnBoardNode : SquareNode
     {
         return _walkableColor.Evaluate(0f);
     }
-    protected override void OnMouseDown()
-    {
-        base.OnMouseDown();
-        //test
-        Flip();
-    }
     private void Update()
     {
         if (Input.GetMouseButtonDown(1)) 
