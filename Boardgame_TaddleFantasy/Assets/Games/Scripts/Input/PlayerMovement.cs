@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] int playerMoveAllow;
     [SerializeField] List<NodeBase> _planningNode = new List<NodeBase>();
 
-    public static System.Action<NodeBase> OnNodeAddedToPlan;
+    public static System.Action<NodeBase> OnNodeAddedToPlan, OnNodeRemovedFromPlan;
     public static System.Action<List<NodeBase>> OnPlayerHoverNode;
     public static System.Action OnPlayerMove;
 
@@ -36,12 +36,26 @@ public class PlayerMovement : MonoBehaviour
         if (!IsMoveable(nodeClicked))
             return;
 
-        _planningNode.Add(nodeClicked);
-        OnNodeAddedToPlan?.Invoke(nodeClicked);
+        if (_planningNode.Contains(nodeClicked))
+        {
+            _planningNode.Remove(nodeClicked);
+            OnNodeRemovedFromPlan?.Invoke(nodeClicked);
+        }
+        else
+        {
+            foreach (SquareTileOnBoardNode node in _planningNode)
+            {
+                node.CleanChosableMyNeighbor();
+            }
+            _planningNode.Add(nodeClicked);
+            OnNodeAddedToPlan?.Invoke(nodeClicked);
+        }
+
+
     }
     bool IsMoveable(NodeBase nodeClicked)
     {
-        if(MovementAllowLeft() < 0)
+        if(MovementAllowLeft() <= 0)
             return false;
         if(!IsInTurn())
             return false;

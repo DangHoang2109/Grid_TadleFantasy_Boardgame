@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class SquareTileOnBoardNode : SquareNode
 {
-    [SerializeField] protected Color _backsideColor, _choosingColor;
+    [SerializeField] protected Color _backsideColor, _choosingColor, _canChoseColor;
     public bool IsFaceUp { get; protected set; }
+    public bool IsChosingToBeMoved { get; protected set; }
+    [SerializeField] SpriteRenderer _movingPlanRenderer;
 
     protected override void OnEnable()
     {
@@ -14,14 +16,51 @@ public class SquareTileOnBoardNode : SquareNode
 
         PlayerMovement.OnNodeAddedToPlan -= OnChooseToPlan;
         PlayerMovement.OnNodeAddedToPlan += OnChooseToPlan;
+
+        PlayerMovement.OnNodeRemovedFromPlan -= OnRemoveFromPlan;
+        PlayerMovement.OnNodeRemovedFromPlan += OnRemoveFromPlan;
+
+        ShowChosableToMve(false);
+    }
+    public void ShowChosableToMve(bool isShow)
+    {
+        _movingPlanRenderer.gameObject.SetActive(isShow);
+        _movingPlanRenderer.color = _canChoseColor;
     }
     void OnChooseToPlan(NodeBase node)
     {
         if(node == this)
         {
-            _renderer.color = _choosingColor;
+            IsChosingToBeMoved = true;
+            _movingPlanRenderer.gameObject.SetActive(true);
+            _movingPlanRenderer.color = _choosingColor;
+            //foreach (var neighbor in this.Neighbors)
+            //{
+            //    if(neighbor is SquareTileOnBoardNode gameTile && !gameTile.IsChosingToBeMoved)
+            //    {
+            //        gameTile.ShowChosableToMve(isShow: true);
+            //    }
+            //}
         }
-        
+    }
+    public void CleanChosableMyNeighbor()
+    {
+        foreach (var neighbor in this.Neighbors)
+        {
+            if (neighbor is SquareTileOnBoardNode gameTile && !gameTile.IsChosingToBeMoved)
+            {
+                gameTile.ShowChosableToMve(isShow: false);
+            }
+        }
+    }
+    void OnRemoveFromPlan(NodeBase node)
+    {
+        if (node == this)
+        {
+            IsChosingToBeMoved = false;
+            _movingPlanRenderer.gameObject.SetActive(false);
+            CleanChosableMyNeighbor();
+        }
     }
     public override void Init(bool walkable, ICoords coords)
     {
