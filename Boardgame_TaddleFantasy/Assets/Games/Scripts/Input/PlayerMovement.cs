@@ -9,19 +9,19 @@ public class PlayerMovement : MonoBehaviour
 {
     public const float DELAY_TIME_MOVE_BETWEEN_NODE = 0.1f;
     [SerializeField] PlayerUnit _playerUnit;
-    [SerializeField] NodeBase _standingNode;
+    [SerializeField] BaseTileOnBoard _standingNode;
 
     [SerializeField] int playerMoveAllow;
-    [SerializeField] List<NodeBase> _planningNode = new List<NodeBase>();
+    [SerializeField] List<BaseTileOnBoard> _planningNode = new List<BaseTileOnBoard>();
 
-    public static System.Action<NodeBase> OnNodeAddedToPlan;
-    public static System.Action<List<NodeBase>> OnPlayerHoverNode;
+    public static System.Action<BaseTileOnBoard> OnNodeAddedToPlan;
+    public static System.Action<List<BaseTileOnBoard>> OnPlayerHoverNode;
     public static System.Action OnPlayerMove;
 
     private void OnEnable()
     {
-        NodeBase.OnHoverTile -= OnNodeClicked;
-        NodeBase.OnHoverTile += OnNodeClicked;
+        BaseTileOnBoard.OnHoverTile -= OnNodeClicked;
+        BaseTileOnBoard.OnHoverTile += OnNodeClicked;
         _playerUnit = GetComponent<PlayerUnit>();
     }
     private void Update()
@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
             Move();
     }
 
-    void OnNodeClicked(NodeBase nodeClicked)
+    void OnNodeClicked(BaseTileOnBoard nodeClicked)
     {
         //check turn, check số lượt move
         if (!IsMoveable(nodeClicked))
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         _planningNode.Add(nodeClicked);
         OnNodeAddedToPlan?.Invoke(nodeClicked);
     }
-    bool IsMoveable(NodeBase nodeClicked)
+    bool IsMoveable(BaseTileOnBoard nodeClicked)
     {
         if(MovementAllowLeft() < 0)
             return false;
@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     }
     bool IsInTurn() => true;
     public int MovementAllowLeft() => Mathf.Clamp(playerMoveAllow - _planningNode.Count, 0, int.MaxValue);
-    NodeBase LastChoosingNode() => _planningNode.Count > 0 ? _planningNode.LastOrDefault() : _standingNode;
+    BaseTileOnBoard LastChoosingNode() => _planningNode.Count > 0 ? _planningNode.LastOrDefault() : _standingNode;
     void Move()
     {
         if(_planningNode.Count == 0)
@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
             _planningNode.Clear();
         });
     }
-    public void SetMeToNode(NodeBase node)
+    public void SetMeToNode(BaseTileOnBoard node)
     {
         this._standingNode = node;
         Debug.Log("Set me to node");

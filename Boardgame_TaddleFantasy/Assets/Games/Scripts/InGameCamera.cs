@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Tarodev_Pathfinding._Scripts.Grid;
+using Taddle_Fantasy;
 using UnityEngine;
 
 public class InGameCamera : MonoBehaviour
@@ -23,10 +23,12 @@ public class InGameCamera : MonoBehaviour
     /// implement if need
     /// </summary>
     /// <returns></returns>
-    float GetFOV() => 40f;
+    float GetFOV() => Camera.fieldOfView; //40f;
     void OnGridGeneratedComplete()
     {
         Camera.fieldOfView = GetFOV();
-        this.transform.position = new Vector3(Mathf.FloorToInt(GridManager.Instance.GridWidth / 2), Mathf.FloorToInt(GridManager.Instance.GridHeight / 2), this.transform.position.z);
+        this.transform.position = new Vector3((float)GridManager.Instance.Row / 2 - 0.5f, (float)GridManager.Instance.Col / 2 - 0.5f, transform.position.z);
+            
+            //new Vector3(Mathf.FloorToInt(GridManager.Instance.GridWidth / 2), Mathf.FloorToInt(GridManager.Instance.GridHeight / 2), this.transform.position.z);
     }
 }

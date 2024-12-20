@@ -6,22 +6,23 @@ using UnityEngine;
 
 public class PlayerUnit : Unit
 {
+    [SerializeField] Sprite _sprite;
     [SerializeField] PlayerMovement _myMovement;
     private void OnEnable()
     {
         _myMovement = GetComponent<PlayerMovement>();
     }
-    public override void Init(Sprite sprite, NodeBase node)
+    public override void Init(Sprite sprite, BaseTileOnBoard node)
     {
         base.Init(sprite, node);
-        Debug.Log("PlayerUnit Init");
+        _renderer.sprite = sprite;
     }
-    public override void SetStandingNode(NodeBase node)
+    public override void SetStandingNode(BaseTileOnBoard node)
     {
         base.SetStandingNode(node);
         _myMovement.SetMeToNode(node);
     }
-    public virtual Tween MoveToNode(NodeBase nodeDestination, System.Action onComplete = null)
+    public virtual Tween MoveToNode(BaseTileOnBoard nodeDestination, System.Action onComplete = null)
     {
         if (nodeDestination is SquareTileOnBoardNode tileNode)
             tileNode.Flip();

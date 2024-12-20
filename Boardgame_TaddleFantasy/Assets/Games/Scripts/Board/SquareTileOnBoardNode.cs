@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SquareTileOnBoardNode : SquareNode
+public class SquareTileOnBoardNode : BaseTileOnBoard
 {
     [SerializeField] protected Color _backsideColor, _choosingColor;
     public bool IsFaceUp { get; protected set; }
@@ -15,17 +15,16 @@ public class SquareTileOnBoardNode : SquareNode
         PlayerMovement.OnNodeAddedToPlan -= OnChooseToPlan;
         PlayerMovement.OnNodeAddedToPlan += OnChooseToPlan;
     }
-    void OnChooseToPlan(NodeBase node)
+    void OnChooseToPlan(BaseTileOnBoard node)
     {
         if(node == this)
         {
             _renderer.color = _choosingColor;
         }
-        
     }
-    public override void Init(bool walkable, ICoords coords)
+    public override void Init(TileData coords, float cellScale)
     {
-        base.Init(walkable, coords);
+        base.Init(coords, cellScale);
         FaceDown();
     }
     public void FaceDown()

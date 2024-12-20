@@ -91,10 +91,12 @@ namespace _Scripts.Tiles {
 
         #endregion
     }
+
+    public interface ICoords
+    {
+        public float GetDistance(ICoords other);
+        public Vector2 Pos { get; set; }
+    }
 }
 
 
-public interface ICoords {
-    public float GetDistance(ICoords other);
-    public Vector2 Pos { get; set; }
-}
