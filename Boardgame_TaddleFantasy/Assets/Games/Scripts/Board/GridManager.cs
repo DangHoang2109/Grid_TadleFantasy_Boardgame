@@ -39,15 +39,6 @@ namespace Taddle_Fantasy
 
         #endregion
 
-        #region Test
-        private void Start()
-        {
-            InitBoard();
-
-            SpawnUnits();
-        }
-        #endregion
-
         /// <summary>
         /// If maxCellSize < 0 meaning there is no cap
         /// </summary>
@@ -103,7 +94,11 @@ namespace Taddle_Fantasy
             }
 
             onGridGeneratedComplete?.Invoke();
+
+            SpawnUnits();
         }
+
+
         public bool TryGetTileById<T>(int id, out T tile) where T : BaseTileOnBoard
         {
             bool isContain = this.grids.TryGetValue(id, out BaseTileOnBoard t);

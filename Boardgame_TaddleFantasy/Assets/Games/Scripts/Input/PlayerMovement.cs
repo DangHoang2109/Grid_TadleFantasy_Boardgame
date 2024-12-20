@@ -15,19 +15,22 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] List<BaseTileOnBoard> _planningNode = new List<BaseTileOnBoard>();
 
     public static System.Action<BaseTileOnBoard> OnNodeAddedToPlan, OnNodeRemovedFromPlan;
-    public static System.Action<List<BaseTileOnBoard>> OnPlayerHoverNode;
+    public static System.Action<string> OnMovementPlan;
     public static System.Action OnPlayerMove;
+
+    public int MaxMoveAllow => playerMoveAllow;
 
     private void OnEnable()
     {
         BaseTileOnBoard.OnHoverTile -= OnNodeClicked;
         BaseTileOnBoard.OnHoverTile += OnNodeClicked;
+
         _playerUnit = GetComponent<PlayerUnit>();
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            Move();
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //    Move();
     }
 
     void OnNodeClicked(BaseTileOnBoard nodeClicked)
@@ -36,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _planningNode.Remove(nodeClicked);
             OnNodeRemovedFromPlan?.Invoke(nodeClicked);
+            OnMovementPlan?.Invoke(StringMovementStatus());
             return;
         }
 
@@ -49,15 +53,16 @@ public class PlayerMovement : MonoBehaviour
         }
         _planningNode.Add(nodeClicked);
         OnNodeAddedToPlan?.Invoke(nodeClicked);
+        OnMovementPlan?.Invoke(StringMovementStatus());
     }
     bool IsMoveable(BaseTileOnBoard nodeClicked)
     {
-        if(MovementAllowLeft() <= 0)
+        if (MovementAllowLeft() <= 0)
             return false;
-        if(!IsInTurn())
+        if (!IsInTurn())
             return false;
 
-        if (_planningNode.Find(x=>x.GridId == nodeClicked.GridId) != null)
+        if (_planningNode.Find(x => x.GridId == nodeClicked.GridId) != null)
             return false;
         //ô liền kề ô vừa chọn hoặc đang đứng (ô chọn đầu tiên)
         if (!LastChoosingNode().IsNeighbor(nodeClicked))
@@ -66,8 +71,10 @@ public class PlayerMovement : MonoBehaviour
     }
     bool IsInTurn() => true;
     public int MovementAllowLeft() => Mathf.Clamp(playerMoveAllow - _planningNode.Count, 0, int.MaxValue);
+    public string StringMovementStatus() => $"{MovementAllowLeft()}/{playerMoveAllow}";
     BaseTileOnBoard LastChoosingNode() => _planningNode.Count > 0 ? _planningNode.LastOrDefault() : _standingNode;
-    void Move()
+
+    public void Move()
     {
         if(_planningNode.Count == 0)
             return;
@@ -84,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
         seq.OnComplete(() =>
         {
             _planningNode.Clear();
+            InGameManager.Instance.ChangeTurnState(TurnState.End_Turn);
         });
     }
     public void SetMeToNode(BaseTileOnBoard node)

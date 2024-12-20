@@ -61,9 +61,17 @@ public class BaseTileOnBoard : MonoBehaviour
         _renderer.color = Walkable ? GetWalkableColor() : _obstacleColor;
         _defaultColor = _renderer.color;
 
-        OnHoverTile += OnOnHoverTile;
+        BindStateEvent();
+        
         this.transform.localScale = Vector3.one * cellScale;
         transform.position = _tileData.Position;
+    }
+    public virtual void BindStateEvent()
+    {
+        OnHoverTile += OnOnHoverTile;
+
+        //Turn State
+        PlayerMovingTurnState.OnExitState += EndStateMove;
     }
     public virtual void CacheNeighbors(List<BaseTileOnBoard> n)
     {

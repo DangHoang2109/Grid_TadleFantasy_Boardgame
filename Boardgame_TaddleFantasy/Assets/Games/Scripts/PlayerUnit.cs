@@ -8,6 +8,8 @@ public class PlayerUnit : Unit
 {
     [SerializeField] Sprite _sprite;
     [SerializeField] PlayerMovement _myMovement;
+
+    public PlayerMovement MyMovement => _myMovement;
     private void OnEnable()
     {
         _myMovement = GetComponent<PlayerMovement>();
