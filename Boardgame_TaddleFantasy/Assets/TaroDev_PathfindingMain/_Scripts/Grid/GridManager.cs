@@ -55,15 +55,21 @@ namespace Tarodev_Pathfinding._Scripts.Grid {
             //_spawnedGoal.Init(_goalSprite);
         }
 
-        public NodeBase GetTileAtPosition(Vector2 pos) => Tiles.TryGetValue(pos, out var tile) ? tile : null;
+        public NodeBase GetTileAtPosition(Vector2 pos)
+        {
+            if (Tiles.TryGetValue(pos, out var tile))
+                return tile;
+            else
+                return null;
+        }
 
         private void OnDrawGizmos() {
-            if (!Application.isPlaying || !_drawConnections) return;
-            Gizmos.color = Color.red;
-            foreach (var tile in Tiles) {
-                if (tile.Value.Connection == null) continue;
-                Gizmos.DrawLine((Vector3)tile.Key + new Vector3(0, 0, -1), (Vector3)tile.Value.Connection.Coords.Pos + new Vector3(0, 0, -1));
-            }
+            //if (!Application.isPlaying || !_drawConnections) return;
+            //Gizmos.color = Color.red;
+            //foreach (var tile in Tiles) {
+            //    if (tile.Value.Connection == null) continue;
+            //    Gizmos.DrawLine((Vector3)tile.Key + new Vector3(0, 0, -1), (Vector3)tile.Value.Connection.Coords.Pos + new Vector3(0, 0, -1));
+            //}
         }
     }
 }

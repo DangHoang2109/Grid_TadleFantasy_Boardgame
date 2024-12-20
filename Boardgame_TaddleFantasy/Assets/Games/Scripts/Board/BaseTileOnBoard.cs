@@ -87,6 +87,20 @@ public class BaseTileOnBoard : MonoBehaviour
 
     public bool IsNeighbor(BaseTileOnBoard other) => Neighbors.Contains(other);
 
+    #region Moving
+    public virtual void BeginStateMove()
+    {
+
+    }
+    public virtual void BeginStateChose()
+    {
+    }
+    public virtual void EndStateMove()
+    {
+
+    }
+    #endregion
+
 }
 [System.Serializable]
 public class TileData

@@ -14,9 +14,15 @@ namespace _Scripts.Tiles {
         public override void CacheNeighbors() {
             Neighbors = new List<NodeBase>();
 
-            foreach (var tile in Dirs.Select(dir => GridManager.Instance.GetTileAtPosition(Coords.Pos + dir)).Where(tile => tile != null)) {
-                Neighbors.Add(tile);
+            foreach (var dir in Dirs)
+            {
+                var tileN = GridManager.Instance.GetTileAtPosition(Coords.Pos + dir * this.transform.localScale);
+                if (tileN != null) { Neighbors.Add(tileN); }
+                else { Debug.Log($"Missing neighbor --{this.Coords.Pos} --{Coords.Pos + dir * this.transform.localScale}"); }
             }
+            //foreach (var tile in Dirs.Select(dir => GridManager.Instance.GetTileAtPosition(Coords.Pos + dir*this.transform.localScale)).Where(tile => tile != null)) {
+            //    Neighbors.Add(tile);
+            //}
         }
 
         public override void Init(bool walkable, ICoords coords) {

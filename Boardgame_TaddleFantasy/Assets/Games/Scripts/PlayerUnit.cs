@@ -15,7 +15,7 @@ public class PlayerUnit : Unit
     public override void Init(Sprite sprite, BaseTileOnBoard node)
     {
         base.Init(sprite, node);
-        _renderer.sprite = sprite;
+        _renderer.sprite = _sprite;
     }
     public override void SetStandingNode(BaseTileOnBoard node)
     {

@@ -27,7 +27,7 @@ public class InGameCamera : MonoBehaviour
     void OnGridGeneratedComplete()
     {
         Camera.fieldOfView = GetFOV();
-        this.transform.position = new Vector3((float)GridManager.Instance.Row / 2 - 0.5f, (float)GridManager.Instance.Col / 2 - 0.5f, transform.position.z);
+        this.transform.position = new Vector3(((float)GridManager.Instance.Row / 2 - 0.5f)* GridManager.Instance.CellSize, ((float)GridManager.Instance.Col / 2 - 0.5f) * GridManager.Instance.CellSize, transform.position.z);
             
             //new Vector3(Mathf.FloorToInt(GridManager.Instance.GridWidth / 2), Mathf.FloorToInt(GridManager.Instance.GridHeight / 2), this.transform.position.z);
     }

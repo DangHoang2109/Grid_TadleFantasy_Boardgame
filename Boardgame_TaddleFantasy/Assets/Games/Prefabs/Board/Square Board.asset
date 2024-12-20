@@ -16,5 +16,5 @@ MonoBehaviour:
   _obstacleWeight: 0
   _gridWidth: 7
   _gridHeight: 7
-  cellSize: 1.5
+  cellSize: 1.4
   spacing: 0

@@ -19,7 +19,9 @@ namespace Tarodev_Pathfinding._Scripts.Grid.Scriptables {
             for (var x = 0; x < _gridWidth; x++) {
                 for (var y = 0; y < _gridHeight; y++) {
                     var tile = Instantiate(nodeBasePrefab,grid.transform);
-                    var pos = new Vector2((x - y) * 0.5f, (x + y) * 0.25f) * 2;
+                    var pos = new Vector2(
+                        x:((x - y) * 0.5f)* nodeBasePrefab.transform.localScale.x, 
+                        y:((x + y) * 0.25f) * 2)* nodeBasePrefab.transform.localScale.y;
                     tile.Init(DecideIfObstacle(), new SquareCoords(){Pos = pos });
                     tiles.Add(pos,tile);
                 }

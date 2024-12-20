@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] int playerMoveAllow;
     [SerializeField] List<BaseTileOnBoard> _planningNode = new List<BaseTileOnBoard>();
 
-    public static System.Action<BaseTileOnBoard> OnNodeAddedToPlan;
+    public static System.Action<BaseTileOnBoard> OnNodeAddedToPlan, OnNodeRemovedFromPlan;
     public static System.Action<List<BaseTileOnBoard>> OnPlayerHoverNode;
     public static System.Action OnPlayerMove;
 
@@ -32,18 +32,32 @@ public class PlayerMovement : MonoBehaviour
 
     void OnNodeClicked(BaseTileOnBoard nodeClicked)
     {
+        if (nodeClicked == LastChoosingNode())
+        {
+            _planningNode.Remove(nodeClicked);
+            OnNodeRemovedFromPlan?.Invoke(nodeClicked);
+            return;
+        }
+
         //check turn, check số lượt move
         if (!IsMoveable(nodeClicked))
             return;
 
+        foreach (SquareTileOnBoardNode node in _planningNode)
+        {
+            node.CleanChosableMyNeighbor();
+        }
         _planningNode.Add(nodeClicked);
         OnNodeAddedToPlan?.Invoke(nodeClicked);
     }
     bool IsMoveable(BaseTileOnBoard nodeClicked)
     {
-        if(MovementAllowLeft() < 0)
+        if(MovementAllowLeft() <= 0)
             return false;
         if(!IsInTurn())
+            return false;
+
+        if (_planningNode.Find(x=>x.GridId == nodeClicked.GridId) != null)
             return false;
         //ô liền kề ô vừa chọn hoặc đang đứng (ô chọn đầu tiên)
         if (!LastChoosingNode().IsNeighbor(nodeClicked))
@@ -63,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         foreach (var node in _planningNode)
         {
             seq.Append(_playerUnit.MoveToNode(node));
-            seq.AppendCallback(() => { SetMeToNode(node); OnPlayerMove?.Invoke(); });
+            seq.AppendCallback(() => { SetMeToNode(node); node.EndStateMove() ; OnPlayerMove?.Invoke(); });
             seq.AppendInterval(DELAY_TIME_MOVE_BETWEEN_NODE);
         }
 
