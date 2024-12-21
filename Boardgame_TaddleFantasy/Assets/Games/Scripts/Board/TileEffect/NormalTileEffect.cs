@@ -9,13 +9,22 @@ public class NormalTileEffect : ITileNodeEffect
     {
     }
 
-    public override void CastEffect()
+    public override ITaskSchedule CastEffect()
     {
         Debug.Log("Normal tile, no effect");
+        return new DoNormalTileNodeEffectTask();
     }
 
     public override void Flip()
     {
         CastEffect();
+    }
+}
+public class DoNormalTileNodeEffectTask : ITaskSchedule
+{
+    public override IEnumerator DoTask()
+    {
+        yield return new WaitForEndOfFrame();
+        Debug.Log("DoNormalTileNodeEffectTask");
     }
 }

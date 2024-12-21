@@ -36,9 +36,9 @@ public class ITileNodeEffect
         _units ??= new List<Unit>();
         _units.Clear();
     }
-    public virtual void Flip() { ShowVFX(); CastEffect(); }
-    public virtual void CastEffect() { }
-    public virtual void ShowVFX() { }
+    public virtual void Flip() { Debug.Log("Flip"); ShowVFX(); }
+    public virtual ITaskSchedule CastEffect() { return null; }
+    public virtual void ShowVFX() { Debug.Log("ShowVFX"); }
 }
 public enum TileEffectType
 {

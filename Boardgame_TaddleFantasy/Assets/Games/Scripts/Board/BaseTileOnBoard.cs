@@ -102,7 +102,10 @@ public class BaseTileOnBoard : MonoBehaviour
     }
 
     public bool IsNeighbor(BaseTileOnBoard other) => Neighbors.Contains(other);
-
+    public virtual ITaskSchedule DoWhenFlip()
+    {
+        return this.TileEffect.CastEffect();
+    }
     #region Moving
     public virtual void BeginStateMove()
     {

@@ -13,14 +13,23 @@ public class GateSpawnTileEffect : ITileNodeEffect
     {
         indexGate = index;
     }
-    public override void CastEffect()
+    public override ITaskSchedule CastEffect()
     {
         if (this.indexGate < 0)
-            return;
+            return null;
+        return new DoGateTileNodeEffectTask();
     }
     public override void Flip()
     {
         ShowVFX();
     }
 
+}
+public class DoGateTileNodeEffectTask : ITaskSchedule
+{
+    public override IEnumerator DoTask()
+    {
+        yield return new WaitForEndOfFrame();
+        Debug.Log("DoGateTileNodeEffectTask");
+    }
 }

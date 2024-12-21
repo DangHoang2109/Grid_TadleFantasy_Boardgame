@@ -9,17 +9,34 @@ public class WeaponTileEffect : ITileNodeEffect
     {
     }
 
-    public override void CastEffect()
+    public override ITaskSchedule CastEffect()
     {
         base.CastEffect();
 
         if (this._units == null)
-            return;
+            return null;
 
         if (this.LastOccupator != null && LastOccupator is PlayerUnit player)
         {
-            Debug.Log($"WeaponTileEffect tile, Player reveal, add him a free weapon");
-            return;
+            return new DoWeaponTileNodeEffectTask(player, this);
         }
+        return null;
+    }
+}
+public class DoWeaponTileNodeEffectTask : ITaskSchedule
+{
+    PlayerUnit playerUnit;
+    WeaponTileEffect weaponTileEffect;
+    public DoWeaponTileNodeEffectTask(PlayerUnit playerUnit, WeaponTileEffect weaponTileEffect)
+    {
+        this.playerUnit = playerUnit;
+        this.weaponTileEffect = weaponTileEffect;
+    }
+
+    public override IEnumerator DoTask()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(10f);
+        Debug.Log($"WeaponTileEffect tile, Player reveal, add him a free weapon");
     }
 }

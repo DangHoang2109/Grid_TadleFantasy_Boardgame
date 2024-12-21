@@ -86,7 +86,8 @@ public class SquareTileOnBoardNode : BaseTileOnBoard
 
         this._effectRenderer.gameObject.SetActive(IsFaceUp);
 
-        DoWhenFlip();
+        this.TileEffect.Flip();
+        //DoWhenFlip();
     }
     public override void BeginStateChose()
     {
@@ -106,9 +107,5 @@ public class SquareTileOnBoardNode : BaseTileOnBoard
         if (Input.GetMouseButtonDown(1)) 
             FaceDown();
     }
-    public virtual void DoWhenFlip()
-    {
-        Debug.Log("Call Activation Instance to do effect");
-        this.TileEffect.Flip();
-    }
+
 }
