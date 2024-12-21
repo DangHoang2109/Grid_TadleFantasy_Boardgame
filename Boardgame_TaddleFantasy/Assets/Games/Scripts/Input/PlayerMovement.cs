@@ -81,22 +81,29 @@ public class PlayerMovement : MonoBehaviour
 
         DOTween.Kill(this);
         Sequence seq = DOTween.Sequence().SetId(this);
+
         foreach (var node in _planningNode)
         {
+            node.SetOccupation(this._playerUnit);
             seq.Append(_playerUnit.MoveToNode(node));
-            seq.AppendCallback(() => { SetMeToNode(node); node.EndStateMove() ; OnPlayerMove?.Invoke(); });
+            seq.AppendCallback(() => { node.UnOccupation(this._playerUnit); node.EndStateMove() ; OnPlayerMove?.Invoke(); });
             seq.AppendInterval(DELAY_TIME_MOVE_BETWEEN_NODE);
         }
 
         seq.OnComplete(() =>
         {
+            this._playerUnit.SetStandingNode(_planningNode.Last());
             _planningNode.Clear();
             InGameManager.Instance.ChangeTurnState(TurnState.End_Turn);
         });
     }
     public void SetMeToNode(BaseTileOnBoard node)
     {
+        if (_standingNode != null)
+            _standingNode.UnOccupation(this._playerUnit);
+
         this._standingNode = node;
+        _standingNode.SetOccupation(this._playerUnit);
         Debug.Log("Set me to node");
     }
 }

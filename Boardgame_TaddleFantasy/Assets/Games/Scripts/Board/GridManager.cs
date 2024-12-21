@@ -59,26 +59,38 @@ namespace Taddle_Fantasy
 
             //parse the cell
             int index = 0; BaseTileOnBoard obj = null;
+            var gridTileDataSetup = gridConfig.GenerateGrid();
+            Dictionary<TileEffectType, Color> colors = new Dictionary<TileEffectType, Color>();
             for (int i = 0; i < this.Col; i++)
             {
                 for (int j = 0; j < this.Row; j++)
                 {
-                    var t = new TileData(j, i, walkable: gridConfig.DecideIfObstacle(), position: gridConfig.CellPosition(j,i));
-                    if (index >= tiles.Count)
+                    if(gridTileDataSetup.TryGetValue(new Vector2Int(j, i), out TileData t))
                     {
-                        obj = Instantiate(this.tileItemPrefab, this.panelGrid);
-                        tiles.Add(obj);
-                    }
-                    else
-                        obj = tiles[index];
-                    obj.gameObject.SetActive(true);
 
-                    index++;
-    #if UNITY_EDITOR
-                    obj.name = $"{j}_{i}";
-    #endif
-                    obj.Init(t, CellSize);
-                    this.grids.TryAdd(t.Id, obj);
+                        if (index >= tiles.Count)
+                        {
+                            obj = Instantiate(this.tileItemPrefab, this.panelGrid);
+                            tiles.Add(obj);
+                        }
+                        else
+                            obj = tiles[index];
+                        obj.gameObject.SetActive(true);
+
+                        index++;
+#if UNITY_EDITOR
+                        obj.name = $"{j}_{i}";
+#endif
+                        obj.Init(t, CellSize);
+                        t.SetHost(obj);
+                        if (!colors.TryGetValue(t.TileEffectType, out Color color))
+                        {
+                            color = gridConfig.GetNodeColor(t.TileEffectType);
+                            colors.Add(t.TileEffectType, color);
+                        }
+                        obj.Init_EffectColor(color);
+                        this.grids.TryAdd(t.Id, obj);
+                    }
                 }
             }
 

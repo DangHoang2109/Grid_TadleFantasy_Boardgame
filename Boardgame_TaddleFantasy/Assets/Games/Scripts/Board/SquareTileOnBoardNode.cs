@@ -73,6 +73,7 @@ public class SquareTileOnBoardNode : BaseTileOnBoard
             return;
         _renderer.color = _backsideColor;
         IsFaceUp = false;
+        this._effectRenderer.gameObject.SetActive(IsFaceUp);
     }
     public void Flip()
     {
@@ -83,9 +84,10 @@ public class SquareTileOnBoardNode : BaseTileOnBoard
         _renderer.color = GetWalkableColor();
         _defaultColor = _renderer.color;
 
+        this._effectRenderer.gameObject.SetActive(IsFaceUp);
+
         DoWhenFlip();
     }
-
     public override void BeginStateChose()
     {
         base.BeginStateChose(); OnRemoveFromPlan(this);
@@ -96,7 +98,8 @@ public class SquareTileOnBoardNode : BaseTileOnBoard
     }
     public override Color GetWalkableColor()
     {
-        return _walkableColor.Evaluate(0f);
+        return _effectRenderer.color;  
+            //_walkableColor.Evaluate(0f);
     }
     private void Update()
     {
@@ -106,5 +109,6 @@ public class SquareTileOnBoardNode : BaseTileOnBoard
     public virtual void DoWhenFlip()
     {
         Debug.Log("Call Activation Instance to do effect");
+        this.TileEffect.Flip();
     }
 }
