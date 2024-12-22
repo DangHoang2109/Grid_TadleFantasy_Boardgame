@@ -22,6 +22,7 @@ public class BaseTileOnBoard : MonoBehaviour
 
     [SerializeField] protected Gradient _walkableColor;
     [SerializeField] protected SpriteRenderer _renderer;
+    [SerializeField] protected SpriteRenderer _effectRenderer;
 
     [SerializeField] private TileData _tileData;
     public TileData Data => _tileData;
@@ -55,6 +56,9 @@ public class BaseTileOnBoard : MonoBehaviour
         }
     }
 
+    public TileEffectType EffectType => this.Data.TileEffectType;
+    public ITileNodeEffect TileEffect => this.Data.TileNodeEffect;
+
     public virtual void Init(TileData coords, float cellScale)
     {
         this._tileData = coords;
@@ -65,6 +69,10 @@ public class BaseTileOnBoard : MonoBehaviour
         
         this.transform.localScale = Vector3.one * cellScale;
         transform.position = _tileData.Position;
+    }
+    public virtual void Init_EffectColor(Color c)
+    {
+        _effectRenderer.color = c;
     }
     public virtual void BindStateEvent()
     {
@@ -94,7 +102,10 @@ public class BaseTileOnBoard : MonoBehaviour
     }
 
     public bool IsNeighbor(BaseTileOnBoard other) => Neighbors.Contains(other);
-
+    public virtual ITaskSchedule DoWhenFlip()
+    {
+        return this.TileEffect.CastEffect();
+    }
     #region Moving
     public virtual void BeginStateMove()
     {
@@ -107,6 +118,10 @@ public class BaseTileOnBoard : MonoBehaviour
     {
 
     }
+    public virtual void SetOccupation(Unit unit) { TileEffect.SetOccupation(unit); }
+    public virtual void UnOccupation(Unit unit) { TileEffect.UnOccupation(unit); }
+    public virtual void UnOccupateAllUnits() { TileEffect.UnOccupateAllUnits(); }
+
     #endregion
 
 }
@@ -115,6 +130,9 @@ public class TileData
 {
     public int row = -1;
     public int col = -1;
+    protected TileEffectType _tileEffectType;
+    public TileEffectType TileEffectType => _tileEffectType;
+
     public int Id
     {
         get
@@ -132,12 +150,39 @@ public class TileData
     public bool Walkable { get; protected set; }
     public Vector3 Position { get; protected set; }
 
-    public TileData(int _row, int _col, bool walkable, Vector3 position)
+    private ITileNodeEffect _nodeEffect;
+    public ITileNodeEffect TileNodeEffect
+    {
+        get
+        {
+            if (_nodeEffect == null)
+            {
+                SetTileEffect(TileEffectType);
+                SetHost(Host);
+            }
+            return _nodeEffect;
+        }
+        set { _nodeEffect = value; }
+    }
+    public BaseTileOnBoard Host { get; protected set; }
+
+    public TileData(int _row, int _col, TileEffectType effectType, bool walkable, Vector3 position)
     {
         this.row = _row;
         this.col = _col;
         Walkable = walkable;
         Position = position;
+        SetTileEffect(effectType);
+    }
+    public void SetTileEffect(TileEffectType effectType)
+    {
+        _tileEffectType = effectType;
+        _nodeEffect = Activator.CreateInstance(EnumUtility.GetStringType(_tileEffectType)) as ITileNodeEffect;
+    }
+    public void SetHost(BaseTileOnBoard h)
+    {
+        Host = h;
+        TileNodeEffect.SetHost(Host);
     }
     public float GetDistance(TileData other)
     {

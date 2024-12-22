@@ -14,7 +14,7 @@ public class SquareBoardScriptableGrid : ScriptableGrid
     public float CellSize() => cellSize;
     public float Spacing() => spacing;  
 
-    public Vector3 CellPosition(int rowID, int colID)
+    public override Vector3 CellPosition(int rowID, int colID)
     {
         return new Vector3(
             x: rowID * cellSize + spacing * (rowID - 1),

@@ -25,12 +25,5 @@ public class PlayerUnit : Unit
         this.transform.position = node.transform.position;
         _myMovement.SetMeToNode(node);
     }
-    public virtual Tween MoveToNode(BaseTileOnBoard nodeDestination, System.Action onComplete = null)
-    {
-        if (nodeDestination is SquareTileOnBoardNode tileNode)
-            tileNode.Flip();
 
-        return this.transform.DOJump(nodeDestination.transform.position, 0.5f, 1, 0.2f).SetEase(Ease.InQuad).OnComplete(()=> { onComplete?.Invoke(); });
-
-    }
 }

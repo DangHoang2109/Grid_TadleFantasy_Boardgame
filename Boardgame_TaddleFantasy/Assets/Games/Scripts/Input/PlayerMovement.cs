@@ -3,12 +3,15 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     public const float DELAY_TIME_MOVE_BETWEEN_NODE = 0.1f;
     [SerializeField] PlayerUnit _playerUnit;
+    public PlayerUnit PlayerUnit => _playerUnit;
+
     [SerializeField] BaseTileOnBoard _standingNode;
 
     [SerializeField] int playerMoveAllow;
@@ -73,30 +76,46 @@ public class PlayerMovement : MonoBehaviour
     public int MovementAllowLeft() => Mathf.Clamp(playerMoveAllow - _planningNode.Count, 0, int.MaxValue);
     public string StringMovementStatus() => $"{MovementAllowLeft()}/{playerMoveAllow}";
     BaseTileOnBoard LastChoosingNode() => _planningNode.Count > 0 ? _planningNode.LastOrDefault() : _standingNode;
+    public virtual Tween MoveToNode(BaseTileOnBoard nodeDestination, System.Action onComplete = null)
+    {
+        if (nodeDestination is SquareTileOnBoardNode tileNode)
+            tileNode.Flip();
 
+        return this._playerUnit.transform.DOJump(nodeDestination.transform.position, 0.5f, 1, 0.2f).SetEase(Ease.InQuad).OnComplete(() => { onComplete?.Invoke(); });
+    }
     public void Move()
     {
         if(_planningNode.Count == 0)
             return;
 
-        DOTween.Kill(this);
-        Sequence seq = DOTween.Sequence().SetId(this);
         foreach (var node in _planningNode)
         {
-            seq.Append(_playerUnit.MoveToNode(node));
-            seq.AppendCallback(() => { SetMeToNode(node); node.EndStateMove() ; OnPlayerMove?.Invoke(); });
-            seq.AppendInterval(DELAY_TIME_MOVE_BETWEEN_NODE);
+            node.SetOccupation(this._playerUnit);
+            DoMoveToNodeTask moveTask = new DoMoveToNodeTask(this, node, onCompleteJump: () =>
+            {
+                node.UnOccupation(this._playerUnit); node.EndStateMove(); OnPlayerMove?.Invoke();
+            }, onCompletelyDoneTask: null);
+            InGameTaskManager.Instance.ScheduleNewTask(moveTask, autoRun: false);
+            var tileTask = node.DoWhenFlip();
+            if(tileTask != null)
+                InGameTaskManager.Instance.ScheduleNewTask(tileTask, autoRun: false);
         }
 
-        seq.OnComplete(() =>
+        DoCallbackTask endTask = new DoCallbackTask(callback: () =>
         {
+            this._playerUnit.SetStandingNode(_planningNode.Last());
             _planningNode.Clear();
             InGameManager.Instance.ChangeTurnState(TurnState.End_Turn);
         });
+        InGameTaskManager.Instance.ScheduleNewTask(endTask);
     }
     public void SetMeToNode(BaseTileOnBoard node)
     {
+        if (_standingNode != null)
+            _standingNode.UnOccupation(this._playerUnit);
+
         this._standingNode = node;
+        _standingNode.SetOccupation(this._playerUnit);
         Debug.Log("Set me to node");
     }
 }
