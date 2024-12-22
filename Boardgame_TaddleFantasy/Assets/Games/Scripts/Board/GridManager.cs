@@ -17,9 +17,6 @@ namespace Taddle_Fantasy
         [SerializeField]
         protected Transform panelGrid;
 
-        [Header("Unit")]
-        [SerializeField] private Unit _unitPrefab;
-
         #region Getter
         public int Row => gridConfig?.Width() ?? 0;
         public int Col => gridConfig?.Height() ?? 0;
@@ -94,8 +91,6 @@ namespace Taddle_Fantasy
             }
 
             onGridGeneratedComplete?.Invoke();
-
-            SpawnUnits();
         }
 
 
@@ -115,13 +110,6 @@ namespace Taddle_Fantasy
         {
             tile = this.GetTileByRowCol<T>(row, col);
             return tile != null;
-        }
-
-        void SpawnUnits()
-        {
-            var _playerNodeBase = Items.Where(t => t.Walkable).OrderBy(t => Random.value).First();
-            var _spawnedPlayer = Instantiate(_unitPrefab, _playerNodeBase.transform.position, Quaternion.identity);
-            _spawnedPlayer.Init(null, _playerNodeBase);
         }
     }
 }

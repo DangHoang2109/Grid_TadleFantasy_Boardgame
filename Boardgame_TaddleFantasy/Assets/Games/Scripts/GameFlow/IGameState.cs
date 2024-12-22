@@ -4,4 +4,7 @@ using UnityEngine;
 
 public class IGameState : IState
 {
+    public virtual void Init()
+    {
+    }
 }

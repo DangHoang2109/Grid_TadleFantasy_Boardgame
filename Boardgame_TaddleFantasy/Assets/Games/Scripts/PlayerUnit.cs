@@ -14,14 +14,15 @@ public class PlayerUnit : Unit
     {
         _myMovement = GetComponent<PlayerMovement>();
     }
-    public override void Init(Sprite sprite, BaseTileOnBoard node)
+    public override void Init(Sprite sprite)
     {
-        base.Init(sprite, node);
+        base.Init(sprite);
         _renderer.sprite = _sprite;
     }
     public override void SetStandingNode(BaseTileOnBoard node)
     {
         base.SetStandingNode(node);
+        this.transform.position = node.transform.position;
         _myMovement.SetMeToNode(node);
     }
     public virtual Tween MoveToNode(BaseTileOnBoard nodeDestination, System.Action onComplete = null)

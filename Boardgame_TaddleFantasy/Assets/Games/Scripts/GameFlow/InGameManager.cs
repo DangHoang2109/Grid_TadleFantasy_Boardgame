@@ -7,14 +7,15 @@ using UnityEngine;
 public class InGameManager : MonoBehaviour
 {
     public static InGameManager Instance;
+    void Awake() => Instance = this;
+
     public int currentPlayerIndex;
     //move to Unit Manager
-    [SerializeField] List<PlayerUnit> players;
-    public PlayerUnit CurrentPlayerTurn => players[currentPlayerIndex];
-    void Awake() => Instance = this;
+    public PlayerUnit CurrentPlayerTurn => UnitManager.Instance.GetPlayerByTurnIndex(currentPlayerIndex);
 
     [SerializeField] private GameState _state;
     public GameState CurrentGameState => _state;
+    protected IGameState currentGameState;
 
     [SerializeField] private TurnState _turnState;
     public TurnState CurrentTurnState => _turnState;
@@ -27,32 +28,17 @@ public class InGameManager : MonoBehaviour
 
     public void ChangeGameState(GameState state)
     {
+        if (state != GameState.Player_Turn && _state == state)
+            return;
         _state = state;
-        OnGameStateChanged?.Invoke(state);
+            
+        if (currentGameState != null)
+            currentGameState.Exit();
+        currentGameState = Activator.CreateInstance(EnumUtility.GetStringType(state)) as IGameState;
+        currentGameState.Init();
+        currentGameState.Enter();
 
-        ///Change to the IGameState system like TurnState
-        switch (state)
-        {
-            case GameState.None:
-                break;
-            case GameState.Init:
-                GridManager.Instance.InitBoard();
-                players = new List<PlayerUnit>( FindObjectsOfType<PlayerUnit>());
-                ChangeGameState(GameState.Start);
-                break;
-            case GameState.Start:
-                ChangeGameState(GameState.Player_Turn);
-                break;
-            case GameState.Enemy_Turn:
-                break;
-            case GameState.Player_Turn:
-                ChangeTurnState(TurnState.Main_Phase);
-                break;
-            case GameState.EndGame:
-                break;
-            default:
-                break;
-        }
+        OnGameStateChanged?.Invoke(state);
     }
     public void ChangeTurnState(TurnState state)
     {
@@ -90,13 +76,16 @@ public enum GameState
 {
     None = -1,
     //Prepare the game: Board, Unit,...
+    [Type(typeof(GameInitState))]
     Init = 0,
     //Begin the game
+    [Type(typeof(GameStartState))]
     Start = 1,
 
     //Begin turn of Enemy
     Enemy_Turn = 2,
     //Begin turn of main player and other player, check the Turn Index
+    [Type(typeof(GamePlayerTurnState))]
     Player_Turn = 3,
 
     EndGame = 4,
