@@ -14,10 +14,11 @@ public class GameStartState : IGameState
         Debug.Log("Enter GameStartState");
 
         Debug.Log("Let's main player choose the starting tile");
-        var node = GridManager.Instance.Items.Where(t => t.Walkable).OrderBy(t => UnityEngine.Random.value).First();
+        var node = GridManager.Instance.Items.Where(t => t.Walkable && t.EffectType != TileEffectType.Gate).OrderBy(t => UnityEngine.Random.value).First();
         UnitManager.Instance.StartGame_MainPlayerPickNode(node);
         Debug.Log("Let's reveal gate node");
 
+        GridManager.Instance.FlipAllTilesOfType(TileEffectType.Gate);
         //reveal gate node
         OnStartComplete();
     }

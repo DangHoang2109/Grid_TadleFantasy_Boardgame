@@ -123,5 +123,15 @@ namespace Taddle_Fantasy
             tile = this.GetTileByRowCol<T>(row, col);
             return tile != null;
         }
+
+        public void FlipAllTilesOfType(TileEffectType type)
+        {
+            var tiles = Items.FindAll(t=>t.EffectType == type);
+            if(tiles != null && tiles.Any())
+            {
+                DoAnimationFlipTilesTask flipTask = new DoAnimationFlipTilesTask(tiles, null);
+                InGameTaskManager.Instance.ScheduleNewTask(flipTask);
+            }
+        }
     }
 }

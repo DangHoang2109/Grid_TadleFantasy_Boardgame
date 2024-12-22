@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class SquareTileOnBoardNode : BaseTileOnBoard
 {
-    [SerializeField] protected Color _backsideColor, _choosingColor, _canChoseColor;
-    public bool IsFaceUp { get; protected set; }
+    [SerializeField] protected Color _choosingColor, _canChoseColor;
     public bool IsChosingToBeMoved { get; protected set; }
     [SerializeField] SpriteRenderer _movingPlanRenderer;
 
@@ -65,29 +64,6 @@ public class SquareTileOnBoardNode : BaseTileOnBoard
     public override void Init(TileData coords, float cellScale)
     {
         base.Init(coords, cellScale);
-        FaceDown();
-    }
-    public void FaceDown()
-    {
-        if (!Walkable)
-            return;
-        _renderer.color = _backsideColor;
-        IsFaceUp = false;
-        this._effectRenderer.gameObject.SetActive(IsFaceUp);
-    }
-    public void Flip()
-    {
-        if (!Walkable)
-            return;
-
-        IsFaceUp = true;
-        _renderer.color = GetWalkableColor();
-        _defaultColor = _renderer.color;
-
-        this._effectRenderer.gameObject.SetActive(IsFaceUp);
-
-        this.TileEffect.Flip();
-        //DoWhenFlip();
     }
     public override void BeginStateChose()
     {

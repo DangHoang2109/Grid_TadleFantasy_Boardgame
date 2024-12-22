@@ -18,7 +18,7 @@ public class BaseTileOnBoard : MonoBehaviour
 
     [Header("References")]
     [SerializeField]
-    protected Color _obstacleColor;
+    protected Color _obstacleColor, _backsideColor;
 
     [SerializeField] protected Gradient _walkableColor;
     [SerializeField] protected SpriteRenderer _renderer;
@@ -55,6 +55,7 @@ public class BaseTileOnBoard : MonoBehaviour
             return this.Data.col;
         }
     }
+    public bool IsFaceUp { get; protected set; }
 
     public TileEffectType EffectType => this.Data.TileEffectType;
     public ITileNodeEffect TileEffect => this.Data.TileNodeEffect;
@@ -69,6 +70,8 @@ public class BaseTileOnBoard : MonoBehaviour
         
         this.transform.localScale = Vector3.one * cellScale;
         transform.position = _tileData.Position;
+        FaceDown();
+
     }
     public virtual void Init_EffectColor(Color c)
     {
@@ -102,10 +105,35 @@ public class BaseTileOnBoard : MonoBehaviour
     }
 
     public bool IsNeighbor(BaseTileOnBoard other) => Neighbors.Contains(other);
+
+    #region Flip
+    public  virtual void FaceDown()
+    {
+        if (!Walkable)
+            return;
+        _renderer.color = _backsideColor;
+        IsFaceUp = false;
+        this._effectRenderer.gameObject.SetActive(IsFaceUp);
+    }
+    public virtual void Flip()
+    {
+        if (!Walkable)
+            return;
+
+        IsFaceUp = true;
+        _renderer.color = GetWalkableColor();
+        _defaultColor = _renderer.color;
+
+        this._effectRenderer.gameObject.SetActive(IsFaceUp);
+
+        this.TileEffect.Flip();
+    }
     public virtual ITaskSchedule DoWhenFlip()
     {
         return this.TileEffect.CastEffect();
     }
+    #endregion
+
     #region Moving
     public virtual void BeginStateMove()
     {

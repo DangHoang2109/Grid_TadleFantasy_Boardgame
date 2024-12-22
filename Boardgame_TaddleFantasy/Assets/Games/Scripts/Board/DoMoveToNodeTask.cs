@@ -46,3 +46,23 @@ public class DoCallbackTask : ITaskSchedule
         _callback?.Invoke();
     }
 }
+public class DoAnimationFlipTilesTask : ITaskSchedule
+{
+    private System.Action _callback;
+    private List<BaseTileOnBoard> _tilesToFlip;
+    public DoAnimationFlipTilesTask(List<BaseTileOnBoard> tileOnBoards, System.Action callback)
+    {
+        _tilesToFlip = tileOnBoards;
+        _callback = callback;
+    }
+    public override IEnumerator DoTask()
+    {
+        yield return new WaitForEndOfFrame();
+        //Do your animation flip
+        foreach (var tile in _tilesToFlip) {
+            tile.Flip();
+        }
+
+        _callback?.Invoke();
+    }
+}
