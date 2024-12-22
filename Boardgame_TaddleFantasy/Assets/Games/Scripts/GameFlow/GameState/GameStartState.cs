@@ -19,7 +19,11 @@ public class GameStartState : IGameState
         Debug.Log("Let's reveal gate node");
 
         GridManager.Instance.FlipAllTilesOfType(TileEffectType.Gate);
-        //reveal gate node
+
+        Debug.Log("Let's spawn starting enemy");
+        DoCallbackTask spawnEnemiesTask = new DoCallbackTask(() => { EnemyManager.Instance.StartGame(); });
+        InGameTaskManager.Instance.ScheduleNewTask(spawnEnemiesTask);
+
         OnStartComplete();
     }
     void OnStartComplete()

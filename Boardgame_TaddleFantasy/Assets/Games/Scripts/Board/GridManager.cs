@@ -124,9 +124,17 @@ namespace Taddle_Fantasy
             return tile != null;
         }
 
+        public List<BaseTileOnBoard> GetTilesOfType(TileEffectType type,bool mustBeRevealed = true) 
+        {
+            var tiles = Items.FindAll(t => t.EffectType == type);
+            if (mustBeRevealed && tiles.Any())
+                return tiles.FindAll(t => t.IsFaceUp);
+
+            return tiles;
+        }
         public void FlipAllTilesOfType(TileEffectType type)
         {
-            var tiles = Items.FindAll(t=>t.EffectType == type);
+            var tiles = GetTilesOfType(type, mustBeRevealed: false);
             if(tiles != null && tiles.Any())
             {
                 DoAnimationFlipTilesTask flipTask = new DoAnimationFlipTilesTask(tiles, null);

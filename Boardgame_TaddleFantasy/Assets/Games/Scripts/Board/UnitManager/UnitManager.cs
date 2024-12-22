@@ -10,15 +10,20 @@ public class UnitManager : MonoBehaviour
     public static UnitManager Instance;
     void Awake() => Instance = this;
 
-    [Header("Unit")]
+    [Header("Unit Player")]
     [SerializeField] private Unit _unitPrefab;
     [SerializeField] List<PlayerUnit> players = new List<PlayerUnit>();
+
+    [Header("Enemy")]
+    public EnemyManager enemyManager;
+
     public PlayerUnit GetPlayerByTurnIndex(int index) => players[index];
     public PlayerUnit MainPlayer => GetPlayerByTurnIndex(0);
 
     public void Init()
     {
         SpawnUnits();
+        enemyManager.Init();
     }
     void SpawnUnits()
     {
