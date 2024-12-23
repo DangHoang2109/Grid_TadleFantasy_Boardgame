@@ -12,6 +12,18 @@ public class EnemyUnit : Unit
         base.Init(sprite);
         _renderer.sprite = _sprite;
     }
+    public virtual void Init(GameObject visualObject)
+    {
+        base.Init(null);
+        if(visualObject != null)
+        {
+            Instantiate(visualObject, this.transform);
+        }
+        else
+        {
+            _renderer.sprite = _sprite;
+        }
+    }
     public override void SetStandingNode(BaseTileOnBoard node)
     {
         base.SetStandingNode(node);

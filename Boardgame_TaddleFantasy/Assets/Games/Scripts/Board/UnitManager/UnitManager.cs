@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Taddle_Fantasy;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
     void Awake() => Instance = this;
 
+    [SerializeField] private Transform tfUnit;
     [Header("Unit Player")]
     [SerializeField] private Unit _unitPrefab;
     [SerializeField] List<PlayerUnit> players = new List<PlayerUnit>();
@@ -23,11 +23,11 @@ public class UnitManager : MonoBehaviour
     public void Init()
     {
         SpawnUnits();
-        enemyManager.Init();
+        enemyManager.Init(this.tfUnit);
     }
     void SpawnUnits()
     {
-        var _spawnedPlayer = Instantiate(_unitPrefab); //_playerNodeBase.transform.position, Quaternion.identity
+        var _spawnedPlayer = Instantiate(_unitPrefab, tfUnit); //_playerNodeBase.transform.position, Quaternion.identity
         players.Add(_spawnedPlayer as PlayerUnit);
 
         _spawnedPlayer.Init(null);
