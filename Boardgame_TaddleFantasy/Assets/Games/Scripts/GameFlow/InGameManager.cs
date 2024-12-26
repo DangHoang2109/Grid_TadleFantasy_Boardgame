@@ -55,6 +55,14 @@ public class InGameManager : MonoBehaviour
 
         OnTurnStateChanged?.Invoke(_turnState, currentPlayerIndex);
     }
+    public void ExistState(TurnState state)
+    {
+        if (_turnState != state)
+            return;
+
+        if (currentTurnState != null)
+            currentTurnState.Exit();
+    }
 
     public void FinishTurnState(TurnState state)
     {
@@ -82,6 +90,7 @@ public enum GameState
     [Type(typeof(GameStartState))]
     Start = 1,
 
+    [Type(typeof(GameEnemyTurnState))]
     //Begin turn of Enemy
     Enemy_Turn = 2,
     //Begin turn of main player and other player, check the Turn Index
@@ -93,15 +102,18 @@ public enum GameState
 public enum TurnState
 {
     //Player: Add Action Pts, Enemy: Spawn new Enemy
-    StandBy_Phase = 0,
+    Player_StandBy_Phase = 0,
+    [Type(typeof(EnemyInviteTurnState))]
+    Enemy_Invite_Phase,
+
     //Play their turn: Planning Move (Chose or Auto), Purchase skill, Purchase Weapon,...
     [Type(typeof(PlayerMainPhaseTurnState))]
-    Main_Phase = 1,
+    Main_Phase,
     //Moving after planning
     [Type(typeof(PlayerMovingTurnState))]
-    Moving_Phase = 2,
+    Moving_Phase,
     //Battle after moving
-    Battle_Phase = 3,
+    Battle_Phase,
     [Type(typeof(PlayerEndTurnState))]
-    End_Turn = 4,
+    End_Turn,
 }

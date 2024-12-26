@@ -71,10 +71,45 @@ public class EnemyManager : MonoBehaviour
             }
         }
     }
-
-    public void GenerateInviteResult()
+    public void SpawnEnemies(EnemyType type, int amountEachNode, List<BaseTileOnBoard> tiles)
     {
+        if (dictPoolByType.TryGetValue(type, out ObjectPool<EnemyUnit> ePool))
+        {
+            var eConfig = GetEnemyConfig(type);
+            foreach (var tile in tiles)
+            {
+                for (int i = 0; i < amountEachNode; i++)
+                {
+                    EnemyUnit enemyUnit = ePool.Get();
+                    enemyUnit.Init(eConfig.enemyVisual);
+                    enemyUnit.SetStandingNode(tile);
+                }
+            }
+        }
+    }
+    public (List<BaseTileOnBoard>, EnemyType, int) GenerateInviteResult()
+    {
+        ///ID position of the Gate to spawn, -1 mean spawn all the gate tile
+        List<int> craftGateDice = new List<int>(GridManager.Instance.GetTilesOfType(TileEffectType.Gate).Select(t => t.GridId));
+        craftGateDice.Add(EnemyInviteConstant.ALL_GATE_DEFINE);
 
+        //Amount creep enemy to spawn, -1 mean spawn Elite creep
+        List<int> craftEnemyDice = new List<int>() { EnemyInviteConstant.ELITE_ENEMY_DEFINE, 1, 1, 1, 2, 2 };
+
+        var _gateID = GetRandom(craftGateDice);
+        int _enemyAmount = GetRandom(craftEnemyDice);
+
+        List<BaseTileOnBoard> nodesToSpawn = new List<BaseTileOnBoard>();
+        if (_gateID == EnemyInviteConstant.ALL_GATE_DEFINE)
+            nodesToSpawn = GridManager.Instance.GetTilesOfType(TileEffectType.Gate);
+        else
+        {
+            if (GridManager.Instance.TryGetTileById(_gateID, out BaseTileOnBoard t))
+                nodesToSpawn.Add(t);
+        }
+        EnemyType typeToSpawn = _enemyAmount == EnemyInviteConstant.ELITE_ENEMY_DEFINE ? EnemyType.Elite : EnemyType.None;
+
+        return new(nodesToSpawn, typeToSpawn, Mathf.Clamp(_enemyAmount, 1, int.MaxValue));
     }
     #region Pool
     EnemyUnit OnCreate()
@@ -95,6 +130,8 @@ public class EnemyManager : MonoBehaviour
         this.enemies.Remove(newItem);
     }
     #endregion
+
+    public int GetRandom(List<int> list) => list[UnityEngine.Random.Range(0, list.Count)]; 
 }
 public enum EnemyType
 {
@@ -104,4 +141,9 @@ public enum EnemyType
     Elite,
 
     Boss,
+}
+public static class EnemyInviteConstant
+{
+    public const int ALL_GATE_DEFINE = -1;
+    public const int ELITE_ENEMY_DEFINE = -1;
 }

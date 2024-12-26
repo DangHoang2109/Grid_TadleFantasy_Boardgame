@@ -6,6 +6,6 @@ public class TestingButton : MonoBehaviour
 {
     public void ClickTesting()
     {
-
+        InGameManager.Instance.ChangeGameState(GameState.Enemy_Turn);
     }
 }

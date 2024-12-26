@@ -6,7 +6,7 @@ public class EnemyUnit : Unit
 {
     //temp
     [SerializeField] Sprite _sprite;
-
+    [SerializeField] Vector3 noisePositionInNode = new Vector3(0.5f, 0.5f);
     public override void Init(Sprite sprite)
     {
         base.Init(sprite);
@@ -27,6 +27,9 @@ public class EnemyUnit : Unit
     public override void SetStandingNode(BaseTileOnBoard node)
     {
         base.SetStandingNode(node);
-        this.transform.position = node.transform.position;
+        this.transform.position = node.transform.position + new Vector3(
+            x: Random.Range(-noisePositionInNode.x, noisePositionInNode.x),
+            y: Random.Range(-noisePositionInNode.y, noisePositionInNode.y)
+            );
     }
 }

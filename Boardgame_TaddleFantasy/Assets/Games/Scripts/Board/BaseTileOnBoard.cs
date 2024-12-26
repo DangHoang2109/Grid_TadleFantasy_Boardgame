@@ -55,7 +55,6 @@ public class BaseTileOnBoard : MonoBehaviour
             return this.Data.col;
         }
     }
-    public int ID => Data.Id;
     public bool IsFaceUp { get; protected set; }
 
     public TileEffectType EffectType => this.Data.TileEffectType;
