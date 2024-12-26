@@ -109,9 +109,15 @@ public enum TurnState
     //Play their turn: Planning Move (Chose or Auto), Purchase skill, Purchase Weapon,...
     [Type(typeof(PlayerMainPhaseTurnState))]
     Main_Phase,
+    [Type(typeof(EnemyMainPhaseTurnState))]
+    Enemy_Main_Phase,
+
     //Moving after planning
     [Type(typeof(PlayerMovingTurnState))]
     Moving_Phase,
+    [Type(typeof(EnemyMovingTurnState))]
+    Enemy_Moving_Phase,
+
     //Battle after moving
     Battle_Phase,
     [Type(typeof(PlayerEndTurnState))]

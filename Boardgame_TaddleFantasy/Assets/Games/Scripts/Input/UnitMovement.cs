@@ -1,26 +1,16 @@
-﻿using _Scripts.Tiles;
-using DG.Tweening;
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class UnitMovement : MonoBehaviour
 {
     public const float DELAY_TIME_MOVE_BETWEEN_NODE = 0.1f;
-    [SerializeField] PlayerUnit _playerUnit;
-    public PlayerUnit PlayerUnit => _playerUnit;
-
+    [SerializeField] Unit _playerUnit;
     [SerializeField] BaseTileOnBoard _standingNode;
 
-    [SerializeField] int playerMoveAllow;
     [SerializeField] List<BaseTileOnBoard> _planningNode = new List<BaseTileOnBoard>();
-
-    public static System.Action<BaseTileOnBoard> OnNodeAddedToPlan, OnNodeRemovedFromPlan;
-    public static System.Action<string> OnMovementPlan;
-    public static System.Action OnPlayerMove;
-
-    public int MaxMoveAllow => playerMoveAllow;
 
     private void OnEnable()
     {
@@ -84,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Move()
     {
-        if(_planningNode.Count == 0)
+        if (_planningNode.Count == 0)
             return;
 
         foreach (var node in _planningNode)
@@ -96,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
             }, onCompletelyDoneTask: null);
             InGameTaskManager.Instance.ScheduleNewTask(moveTask, autoRun: false);
             var tileTask = node.DoWhenFlip();
-            if(tileTask != null)
+            if (tileTask != null)
                 InGameTaskManager.Instance.ScheduleNewTask(tileTask, autoRun: false);
         }
 

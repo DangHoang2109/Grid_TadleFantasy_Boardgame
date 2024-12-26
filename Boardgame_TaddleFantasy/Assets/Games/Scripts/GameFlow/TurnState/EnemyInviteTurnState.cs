@@ -35,7 +35,7 @@ public class EnemyInviteTurnState : ITurnState
         OnExitState?.Invoke();
         Debug.Log($"Exit state EnemyInviteTurnState");
         //change state
-        InGameManager.Instance.ChangeTurnState(TurnState.End_Turn);
+        InGameManager.Instance.ChangeTurnState(TurnState.Enemy_Main_Phase);
     }
 
     public static System.Action OnEnterState, OnExitState;
