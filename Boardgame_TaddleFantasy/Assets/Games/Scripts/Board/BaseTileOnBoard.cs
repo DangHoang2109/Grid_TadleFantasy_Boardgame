@@ -56,6 +56,7 @@ public class BaseTileOnBoard : MonoBehaviour
         }
     }
     public bool IsFaceUp { get; protected set; }
+    public bool CastEffected { get; protected set; }
 
     public TileEffectType EffectType => this.Data.TileEffectType;
     public ITileNodeEffect TileEffect => this.Data.TileNodeEffect;
@@ -114,6 +115,7 @@ public class BaseTileOnBoard : MonoBehaviour
         _renderer.color = _backsideColor;
         IsFaceUp = false;
         this._effectRenderer.gameObject.SetActive(IsFaceUp);
+        CastEffected = false;
     }
     public virtual void Flip()
     {
@@ -130,6 +132,10 @@ public class BaseTileOnBoard : MonoBehaviour
     }
     public virtual ITaskSchedule DoWhenFlip()
     {
+        if(CastEffected)
+            return null;
+
+        CastEffected = true;
         return this.TileEffect.CastEffect();
     }
     #endregion

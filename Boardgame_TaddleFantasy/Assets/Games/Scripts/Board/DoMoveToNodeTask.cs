@@ -29,7 +29,7 @@ public class DoMoveToNodeTask : ITaskSchedule
         });
 
         yield return new WaitUntil( ()=> isCompleteTweenMove);
-        yield return new WaitForSeconds(PlayerMovement.DELAY_TIME_MOVE_BETWEEN_NODE);
+        yield return new WaitForSeconds(_unit.DelayTimeMoveBetweenNode);
         _onCompletelyDoneTask?.Invoke();
     }
 }

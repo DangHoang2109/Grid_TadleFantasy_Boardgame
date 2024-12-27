@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class UnitMovement : MonoBehaviour
 {
-    public const float DELAY_TIME_MOVE_BETWEEN_NODE = 0.1f;
+    public virtual float DelayTimeMoveBetweenNode => 0.1f;
     [SerializeField] protected Unit _unit;
     [SerializeField] protected BaseTileOnBoard _standingNode;
 

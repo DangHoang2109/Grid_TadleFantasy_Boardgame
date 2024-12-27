@@ -51,7 +51,6 @@ public class DoBoostTileNodeEffectTask_SpawnEnemy : ITaskSchedule
     public override IEnumerator DoTask()
     {
         yield return new WaitForEndOfFrame();
-        yield return new WaitForSeconds(0.5f);
         Debug.Log($"DoBoostTileNodeEffectTask_SpawnEnemy, spawn {_amountSpawn} enemy more");
     }
 }

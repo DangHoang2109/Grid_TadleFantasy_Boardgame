@@ -13,13 +13,13 @@ public class EnemyInviteTurnState : ITurnState
         InGameTaskManager.Instance.ScheduleNewTask(task);
 
         //spawn into Cosmic Node
-        var cosmicRevealedNode = GridManager.Instance.GetTilesOfType(TileEffectType.Cosmic);
-        if(cosmicRevealedNode != null && cosmicRevealedNode.Count > 0)
-        {
+        //var cosmicRevealedNode = GridManager.Instance.GetTilesOfType(TileEffectType.Cosmic);
+        //if(cosmicRevealedNode != null && cosmicRevealedNode.Count > 0)
+        //{
 
-            DoInviteEnemyTask cosmicTask = new DoInviteEnemyTask(cosmicRevealedNode, EnemyType.None, 1);
-            InGameTaskManager.Instance.ScheduleNewTask(cosmicTask);
-        }
+        //    DoInviteEnemyTask cosmicTask = new DoInviteEnemyTask(cosmicRevealedNode, EnemyType.None, 1);
+        //    InGameTaskManager.Instance.ScheduleNewTask(cosmicTask);
+        //}
     }
     public override void Enter()
     {

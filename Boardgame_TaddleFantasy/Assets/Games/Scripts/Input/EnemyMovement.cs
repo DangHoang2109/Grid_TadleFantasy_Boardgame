@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class EnemyMovement : UnitMovement
 {
+    public override float DelayTimeMoveBetweenNode => 0f; 
     EnemyUnit EnemyUnit => this._unit as EnemyUnit;
     public override Tween MoveToNode(BaseTileOnBoard nodeDestination, System.Action onComplete = null)
     {

@@ -18,6 +18,7 @@ public class WeaponTileEffect : ITileNodeEffect
 
         if (this.LastOccupator != null && LastOccupator is PlayerUnit player)
         {
+            Debug.Log("DoWeaponTileNodeEffectTask");
             return new DoWeaponTileNodeEffectTask(player, this);
         }
         return null;
