@@ -21,5 +21,8 @@ public class PlayerUnit : Unit
         this.transform.position = node.transform.position;
         _myMovement.SetMeToNode(node);
     }
-
+    void Init_PlayerStat(EnemyScriptable enemyScriptable)
+    {
+        this.MyMovement.SetMovementAllow(enemyScriptable.MoveRange());
+    }
 }

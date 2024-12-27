@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd36dfdb67420b24abda874cb73fbcc1, type: 3}
   m_Name: EliteEnemy
   m_EditorClassIdentifier: 
-  enemyType: 1
-  enemyVisual: {fileID: 5777457367474869446, guid: 711974855678e8c46826a4119d74f45c, type: 3}
+  visual: {fileID: 5777457367474869446, guid: 711974855678e8c46826a4119d74f45c, type: 3}
   maxHp: 2
   attackDmg: 2
+  attackDice: 2
   killedReward: 4
   attackRange: 1
   moveRange: 2
+  enemyType: 1

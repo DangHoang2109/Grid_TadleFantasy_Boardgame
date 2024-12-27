@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86fbdfd9f7f32047ae5f7925a06e55d, type: 3}
   m_Name: BossEnemy
   m_EditorClassIdentifier: 
-  enemyType: 2
-  enemyVisual: {fileID: 1127727021862992809, guid: 6988621cdbee9b941961296c97951110, type: 3}
+  visual: {fileID: 1127727021862992809, guid: 6988621cdbee9b941961296c97951110, type: 3}
   maxHp: 12
   attackDmg: 3
+  attackDice: 3
   killedReward: 15
   attackRange: 1
   moveRange: 3
+  enemyType: 2

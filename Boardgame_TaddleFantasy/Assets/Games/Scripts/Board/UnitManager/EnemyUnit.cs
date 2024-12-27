@@ -9,7 +9,7 @@ public class EnemyUnit : Unit
     [SerializeField] Vector3 noisePositionInNode = new Vector3(0.1f, 0.1f);
     public EnemyType EnemyType { get; private set; }
     public EnemyMovement MyMovement => _myMovement as EnemyMovement;
-
+    public EnemyProperty MyProperty => _myStat as EnemyProperty;
     public override void Init(Sprite sprite)
     {
         base.Init(sprite);
@@ -20,7 +20,7 @@ public class EnemyUnit : Unit
         base.Init(null);
         this.EnemyType = enemyScriptable.enemyType;
         //set visual
-        GameObject visualObject = enemyScriptable.enemyVisual;
+        GameObject visualObject = enemyScriptable.visual;
         if (visualObject != null)
         {
             Instantiate(visualObject, this.transform);
@@ -34,6 +34,7 @@ public class EnemyUnit : Unit
     }
     void Init_EnemyStat(EnemyScriptable enemyScriptable)
     {
+        this.MyProperty.InitStat(enemyScriptable);
         this.MyMovement.SetMovementAllow(enemyScriptable.MoveRange());
     }
     public override void SetStandingNode(BaseTileOnBoard node)
