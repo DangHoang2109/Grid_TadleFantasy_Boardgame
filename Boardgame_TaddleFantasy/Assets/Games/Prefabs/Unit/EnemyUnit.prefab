@@ -80,6 +80,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5027687273044455910, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6836176547431052242}
+    - targetCorrespondingSourceObject: {fileID: 5027687273044455910, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8642457266700431574}
   m_SourcePrefab: {fileID: 100100000, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
 --- !u!1 &3488954080330724081 stripped
 GameObject:
@@ -99,7 +102,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 5384219813724733670}
+  _myMovement: {fileID: 0}
   _sprite: {fileID: 21300000, guid: 96905eeec77649241b7da2750dfb29a6, type: 3}
+  noisePositionInNode: {x: 0.5, y: 0.5, z: 0}
+--- !u!114 &8642457266700431574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3488954080330724081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85398f57b7a3a29498d8bb6e4c9a8f9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _unit: {fileID: 6836176547431052242}
+  _standingNode: {fileID: 0}
+  _planningNode: []
+  _moveAllow: 0
 --- !u!212 &5384219813724733670 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4545883318976824305, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}

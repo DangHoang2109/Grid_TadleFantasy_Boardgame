@@ -134,6 +134,7 @@ public class BaseTileOnBoard : MonoBehaviour
     }
     #endregion
 
+    public List<Unit> UnitsOnTiles() => TileEffect?.Units;
     #region Moving
     public virtual void BeginStateMove()
     {
@@ -149,6 +150,8 @@ public class BaseTileOnBoard : MonoBehaviour
     public virtual void SetOccupation(Unit unit) { TileEffect.SetOccupation(unit); }
     public virtual void UnOccupation(Unit unit) { TileEffect.UnOccupation(unit); }
     public virtual void UnOccupateAllUnits() { TileEffect.UnOccupateAllUnits(); }
+    public virtual void UnOccupateUnits(List<Unit> units) { TileEffect.UnOccupateUnits(units); }
+
 
     #endregion
 

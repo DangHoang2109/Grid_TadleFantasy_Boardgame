@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class DoMoveToNodeTask : ITaskSchedule
 {
-    private PlayerMovement _unit;
+    private UnitMovement _unit;
     private BaseTileOnBoard _tileOnBoard;
     private System.Action _onCompleteJump, _onCompletelyDoneTask;
-    public DoMoveToNodeTask(PlayerMovement unit, BaseTileOnBoard tileOnBoard,
+    public DoMoveToNodeTask(UnitMovement unit, BaseTileOnBoard tileOnBoard,
         System.Action onCompleteJump, System.Action onCompletelyDoneTask)
     {
         _unit = unit;

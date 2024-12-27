@@ -16,4 +16,5 @@ public abstract class EnemyScriptable : ScriptableObject
     public abstract void CastEffect();
     public abstract bool VerifySpawn(BaseTileOnBoard tileToSpawn);
     public abstract void Attack();
+    public int MoveRange() => moveRange;
 }

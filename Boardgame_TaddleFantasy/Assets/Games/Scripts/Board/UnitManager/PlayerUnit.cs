@@ -7,13 +7,9 @@ using UnityEngine;
 public class PlayerUnit : Unit
 {
     [SerializeField] Sprite _sprite;
-    [SerializeField] PlayerMovement _myMovement;
 
-    public PlayerMovement MyMovement => _myMovement;
-    private void OnEnable()
-    {
-        _myMovement = GetComponent<PlayerMovement>();
-    }
+    public PlayerMovement MyMovement => _myMovement as PlayerMovement;
+
     public override void Init(Sprite sprite)
     {
         base.Init(sprite);

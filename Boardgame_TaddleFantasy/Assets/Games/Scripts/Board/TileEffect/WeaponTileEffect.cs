@@ -36,7 +36,7 @@ public class DoWeaponTileNodeEffectTask : ITaskSchedule
     public override IEnumerator DoTask()
     {
         yield return new WaitForEndOfFrame();
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(0.5f);
         Debug.Log($"WeaponTileEffect tile, Player reveal, add him a free weapon");
     }
 }

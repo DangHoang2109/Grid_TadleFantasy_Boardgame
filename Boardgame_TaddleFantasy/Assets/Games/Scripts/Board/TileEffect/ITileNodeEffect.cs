@@ -7,6 +7,7 @@ public class ITileNodeEffect
 {
     protected BaseTileOnBoard _node;
     protected List<Unit> _units;
+    public List<Unit> Units => _units;
 
     protected Unit LastOccupator => _units.LastOrDefault();
 
@@ -35,6 +36,14 @@ public class ITileNodeEffect
     {
         _units ??= new List<Unit>();
         _units.Clear();
+    }
+    public virtual void UnOccupateUnits(List<Unit> units)
+    {
+        _units ??= new List<Unit>();
+        foreach (var item in units)
+        {
+            _units.Remove(item);
+        }
     }
     public virtual void Flip() { Debug.Log("Flip"); ShowVFX(); }
     public virtual ITaskSchedule CastEffect() { return null; }

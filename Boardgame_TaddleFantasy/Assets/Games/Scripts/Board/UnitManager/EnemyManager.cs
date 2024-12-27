@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Taddle_Fantasy;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -19,6 +18,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] List<EnemyUnit> enemies = new List<EnemyUnit>();
     Dictionary<EnemyType, ObjectPool<EnemyUnit>> dictPoolByType = new Dictionary<EnemyType, ObjectPool<EnemyUnit>>();
 
+    public List<EnemyUnit> ActiveEnemies => enemies;
     public EnemyScriptable GetEnemyConfig(EnemyType type) => _enemyConfigs.Find(e => e.enemyType == type);
     public void Init(Transform tfUnit)
     {
@@ -34,7 +34,8 @@ public class EnemyManager : MonoBehaviour
                 createFunc: OnCreate,
                 actionOnGet: OnGet,
                 actionOnRelease: OnRelease,
-                defaultCapacity: 3
+                defaultCapacity: 3,
+                maxSize: 100
                 ));
         }
     }
@@ -54,8 +55,8 @@ public class EnemyManager : MonoBehaviour
             EnemyUnit enemyUnit = ePool.Get();
 
             var eConfig = GetEnemyConfig(type);
-            enemyUnit.Init(eConfig.enemyVisual);
-            enemyUnit.SetStandingNode(tile);
+            enemyUnit.Init(eConfig);
+            enemyUnit.SetStandingNodeWithNoise(tile);
         }
     }
     public void SpawnEnemies(EnemyType type, List<BaseTileOnBoard> tiles)
@@ -66,8 +67,8 @@ public class EnemyManager : MonoBehaviour
             foreach (var tile in tiles)
             {
                 EnemyUnit enemyUnit = ePool.Get();
-                enemyUnit.Init(eConfig.enemyVisual);
-                enemyUnit.SetStandingNode(tile);
+                enemyUnit.Init(eConfig);
+                enemyUnit.SetStandingNodeWithNoise(tile);
             }
         }
     }
@@ -81,10 +82,24 @@ public class EnemyManager : MonoBehaviour
                 for (int i = 0; i < amountEachNode; i++)
                 {
                     EnemyUnit enemyUnit = ePool.Get();
-                    enemyUnit.Init(eConfig.enemyVisual);
-                    enemyUnit.SetStandingNode(tile);
+                    enemyUnit.Init(eConfig);
+                    enemyUnit.SetStandingNodeWithNoise(tile);
                 }
             }
+        }
+    }
+    public void KillEnemy(EnemyUnit e)
+    {
+        if (dictPoolByType.TryGetValue(e.EnemyType, out ObjectPool<EnemyUnit> ePool))
+        {
+            ePool.Release(e);
+        }
+    }
+    public void KillEnemies(List<EnemyUnit> es)
+    {
+        foreach (var e in es)
+        {
+            KillEnemy(e);
         }
     }
     public (List<BaseTileOnBoard>, EnemyType, int) GenerateInviteResult()
@@ -96,8 +111,8 @@ public class EnemyManager : MonoBehaviour
         //Amount creep enemy to spawn, -1 mean spawn Elite creep
         List<int> craftEnemyDice = new List<int>() { EnemyInviteConstant.ELITE_ENEMY_DEFINE, 1, 1, 1, 2, 2 };
 
-        var _gateID = GetRandom(craftGateDice);
-        int _enemyAmount = GetRandom(craftEnemyDice);
+        var _gateID = craftGateDice.Random();
+        int _enemyAmount = craftEnemyDice.Random();
 
         List<BaseTileOnBoard> nodesToSpawn = new List<BaseTileOnBoard>();
         if (_gateID == EnemyInviteConstant.ALL_GATE_DEFINE)
@@ -131,7 +146,6 @@ public class EnemyManager : MonoBehaviour
     }
     #endregion
 
-    public int GetRandom(List<int> list) => list[UnityEngine.Random.Range(0, list.Count)]; 
 }
 public enum EnemyType
 {

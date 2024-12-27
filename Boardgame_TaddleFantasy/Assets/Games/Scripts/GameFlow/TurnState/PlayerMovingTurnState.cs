@@ -5,14 +5,11 @@ using UnityEngine;
 
 public class PlayerMovingTurnState : ITurnState
 {
-    public PlayerMovement PMovement => this.PlayerTurn.MyMovement;
-
-
     public override void Enter()
     {
         base.Enter(); Debug.Log($"Enter state PlayerMovingTurnState");
         OnEnterState?.Invoke();
-        PMovement.Move();
+        PlayerTurn.Move();
     }
 
     public override void Exit()

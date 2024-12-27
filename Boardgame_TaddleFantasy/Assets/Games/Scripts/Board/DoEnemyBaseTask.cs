@@ -35,3 +35,7 @@ public class DoInviteEnemyTask : DoEnemyBaseTask
         yield return new WaitUntil(() => isComplete);
     }
 }
+
+public class DoEnemyCastSkillTask : DoEnemyBaseTask
+{
+}

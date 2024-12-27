@@ -19,7 +19,7 @@ public class DoCosmicTileNodeEffectTask : ITaskSchedule
     {
         yield return new WaitForEndOfFrame(); 
         
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
 
         Debug.Log("DoCosmicTileNodeEffectTask");
     }

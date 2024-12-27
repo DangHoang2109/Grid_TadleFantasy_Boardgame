@@ -8,8 +8,20 @@ public class EnemyMovingTurnState : ITurnState
     {
         base.Enter(); Debug.Log($"Enter state EnemyMovingTurnState");
         OnEnterState?.Invoke();
-    }
 
+        var allEnemies = EnemyManager.Instance.ActiveEnemies;
+        if( allEnemies != null)
+        {
+            allEnemies.ForEach(en => { en.Move(); });
+        }
+
+        DoCallbackTask endMovingTurnTask = new DoCallbackTask(OnAllMovedComplete);
+        InGameTaskManager.Instance.ScheduleNewTask(endMovingTurnTask);
+    }
+    void OnAllMovedComplete()
+    {
+        Exit();
+    }
     public override void Exit()
     {
         base.Exit();

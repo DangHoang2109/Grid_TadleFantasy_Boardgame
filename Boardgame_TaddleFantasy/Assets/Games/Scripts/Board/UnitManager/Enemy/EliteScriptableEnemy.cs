@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Scriptable Enemy", menuName = "Game/Enemy/EliteEnemy")]
 public class EliteScriptableEnemy : EnemyScriptable
 {
+    public static int AmountCreepToUpgrade = 3;
     public override void Attack()
     {
         throw new System.NotImplementedException();
