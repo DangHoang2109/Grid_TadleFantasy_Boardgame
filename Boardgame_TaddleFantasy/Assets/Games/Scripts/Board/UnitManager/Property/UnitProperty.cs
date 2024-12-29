@@ -21,4 +21,5 @@ public class UnitProperty : MonoBehaviour
         AttackRange = config.AttackRange();
         AttackDamage = config.AttackDamage();
     }
+    public virtual void UpdateHP(int change) => CurrentHP = Mathf.Clamp(CurrentHP + change, 0, MaxHP); 
 }

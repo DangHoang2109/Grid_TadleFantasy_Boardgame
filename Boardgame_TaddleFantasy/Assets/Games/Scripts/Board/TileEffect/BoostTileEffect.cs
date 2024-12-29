@@ -21,12 +21,13 @@ public class BoostTileEffect : ITileNodeEffect
             return new DoBoostTileNodeEffectTask_HealPlayer(player, this.hpBoostForPlayer);
         }
 
-        return new DoBoostTileNodeEffectTask_SpawnEnemy(enemySpawnForEnemy);
+        return new DoBoostTileNodeEffectTask_SpawnEnemy(enemySpawnForEnemy, _node);
     }
 }
 public class DoBoostTileNodeEffectTask_HealPlayer : ITaskSchedule
 {
     PlayerUnit playerUnit;
+    PlayerProperty PlayerStat => playerUnit.MyStat as PlayerProperty;
     int amountHp;
     public DoBoostTileNodeEffectTask_HealPlayer(PlayerUnit playerUnit, int amountHp)
     {
@@ -37,20 +38,22 @@ public class DoBoostTileNodeEffectTask_HealPlayer : ITaskSchedule
     public override IEnumerator DoTask()
     {
         yield return new WaitForEndOfFrame();
-        Debug.Log($"DoBoostTileNodeEffectTask, add him {amountHp} HP");
+        PlayerStat.UpdateHP(amountHp);
     }
 }
 public class DoBoostTileNodeEffectTask_SpawnEnemy : ITaskSchedule
 {
     int _amountSpawn;
-    public DoBoostTileNodeEffectTask_SpawnEnemy(int amountSpawn)
+    BaseTileOnBoard _tile;
+    public DoBoostTileNodeEffectTask_SpawnEnemy(int amountSpawn, BaseTileOnBoard tile)
     {
         this._amountSpawn = amountSpawn;
+        _tile = tile;
     }
 
     public override IEnumerator DoTask()
     {
         yield return new WaitForEndOfFrame();
-        Debug.Log($"DoBoostTileNodeEffectTask_SpawnEnemy, spawn {_amountSpawn} enemy more");
+        EnemyManager.Instance.SpawnEnemies(EnemyType.None, this._amountSpawn, new List<BaseTileOnBoard>() { _tile });
     }
 }

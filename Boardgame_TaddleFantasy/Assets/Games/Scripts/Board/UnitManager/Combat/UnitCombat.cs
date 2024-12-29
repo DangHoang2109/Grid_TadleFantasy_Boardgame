@@ -28,7 +28,7 @@ public class UnitCombat : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
-        _unitProperty.CurrentHP = Mathf.Clamp(_unitProperty.CurrentHP - damage, 0, _unitProperty.MaxHP);
+        _unitProperty.UpdateHP(-damage);
         AnimationTakingDamager(damage);
         OnHPChange?.Invoke(-damage, _unitProperty.CurrentHP, _unitProperty.MaxHP);
     }
