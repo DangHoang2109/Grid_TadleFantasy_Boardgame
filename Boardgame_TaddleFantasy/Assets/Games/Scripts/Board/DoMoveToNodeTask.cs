@@ -1,6 +1,9 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class DoMoveToNodeTask : ITaskSchedule
 {
@@ -64,5 +67,74 @@ public class DoAnimationFlipTilesTask : ITaskSchedule
         }
 
         _callback?.Invoke();
+    }
+}
+
+public class DoAttackTask : ITaskSchedule
+{
+    private System.Action<bool> _callback;
+    private bool isWin;
+    private int attackerResult = 0, defenderResult = 0;
+    private Unit attacker;
+    private List<Unit> defenders;
+
+    public DoAttackTask(Unit attacker, List<Unit> defenders, System.Action<bool> callback, bool isWin, int attackerDiceResult, int defenderDiceResult )
+    {
+        _callback = callback;
+        this.attacker = attacker;
+        this.defenders = defenders;
+        attackerResult = attackerDiceResult;
+        defenderResult = defenderDiceResult;
+        this.isWin = isWin;
+    }
+    public override IEnumerator DoTask()
+    {
+        yield return new WaitForEndOfFrame();
+        Debug.Log($"Dice result --atk {attackerResult} --defend total {defenderResult}");
+        yield return new WaitForSeconds(0.2f);
+
+        if(isWin)
+            attacker.MyCombat.Attacks(defenders, 1);
+
+        _callback?.Invoke(isWin);
+    }
+}
+public class DoAttacksTask : ITaskSchedule
+{
+    private System.Action<bool> _callback;
+    private bool isWin;
+    private int attackerResult = 0, defenderResult = 0;
+    private List<Unit> attacker;
+    private Unit defender;
+
+    public DoAttacksTask(Unit defender, List<Unit> attackers, System.Action<bool> callback, bool isWin, int attackerDiceResult, int defenderDiceResult)
+    {
+        _callback = callback;
+        this.attacker = attackers;
+        this.defender = defender;
+        attackerResult = attackerDiceResult;
+        defenderResult = defenderDiceResult;
+        this.isWin = isWin;
+    }
+    public override IEnumerator DoTask()
+    {
+        yield return new WaitForEndOfFrame();
+        Debug.Log($"Dice result --atk total {attackerResult} --defend {defenderResult}");
+        yield return new WaitForSeconds(0.2f);
+
+        if (isWin && attacker.Count > 0)
+        {
+            Sequence seq = DOTween.Sequence().SetId(this);
+
+            defender.MyCombat?.TakeDamage(attacker.Max(a=>a.MyCombat.AttackDamage) * attacker.Count);
+
+            for (int i = 0; i < attacker.Count; i++)
+            {
+                var a = attacker[i];
+                seq.Append(a.MyCombat.AnimationAttack(defender));
+            }
+        }
+
+        _callback?.Invoke(isWin);
     }
 }

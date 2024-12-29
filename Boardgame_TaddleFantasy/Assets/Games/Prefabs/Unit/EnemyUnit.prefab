@@ -86,6 +86,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5027687273044455910, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5427882772336533020}
+    - targetCorrespondingSourceObject: {fileID: 5027687273044455910, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9200710694490055695}
   m_SourcePrefab: {fileID: 100100000, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
 --- !u!1 &3488954080330724081 stripped
 GameObject:
@@ -107,6 +110,7 @@ MonoBehaviour:
   _renderer: {fileID: 5384219813724733670}
   _myMovement: {fileID: 8642457266700431574}
   _myStat: {fileID: 5427882772336533020}
+  _myCombat: {fileID: 0}
   _sprite: {fileID: 21300000, guid: 96905eeec77649241b7da2750dfb29a6, type: 3}
   noisePositionInNode: {x: 0.5, y: 0.5, z: 0}
 --- !u!114 &8642457266700431574
@@ -137,10 +141,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d385250b4b2188b47b94e04fb00dd0e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentHP: 0
-  _maxHP: 0
-  _attackDice: 0
-  _attackRange: 0
+--- !u!114 &9200710694490055695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3488954080330724081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f463b8da29d5d7e4aa9f15a2a7bffc71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &5384219813724733670 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4545883318976824305, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}

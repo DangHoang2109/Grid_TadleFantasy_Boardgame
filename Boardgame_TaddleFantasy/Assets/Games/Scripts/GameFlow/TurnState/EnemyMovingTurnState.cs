@@ -28,7 +28,7 @@ public class EnemyMovingTurnState : ITurnState
         OnExitState?.Invoke();
         Debug.Log($"Exit state EnemyMovingTurnState");
         //change state
-        InGameManager.Instance.ChangeTurnState(TurnState.End_Turn);
+        InGameManager.Instance.ChangeTurnState(TurnState.Enemy_Battle_Phase);
     }
 
     public static System.Action OnEnterState, OnExitState;

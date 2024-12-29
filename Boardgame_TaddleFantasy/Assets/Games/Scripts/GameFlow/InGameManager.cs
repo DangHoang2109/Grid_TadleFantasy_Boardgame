@@ -119,7 +119,14 @@ public enum TurnState
     Enemy_Moving_Phase,
 
     //Battle after moving
+    [Type(typeof(PlayerBattleTurnState))]
     Battle_Phase,
+    //Battle after moving
+    [Type(typeof(EnemyBattleTurnState))]
+    Enemy_Battle_Phase,
+
     [Type(typeof(PlayerEndTurnState))]
     End_Turn,
+    [Type(typeof(EnemyEndTurnState))]
+    Enemy_End_Turn,
 }

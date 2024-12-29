@@ -8,16 +8,17 @@ using UnityEngine;
 
 public class UnitProperty : MonoBehaviour
 {
-    [SerializeField] protected int _currentHP;
-    [SerializeField] protected int _maxHP;
-
-    [SerializeField] protected int _attackDice;
-    [SerializeField] protected int _attackRange;
+    public virtual int MaxHP { get; protected set; }
+    public virtual int CurrentHP { get; set; }
+    public virtual int AttackDice { get; protected set; }
+    public virtual int AttackRange { get; protected set; }
+    public virtual int AttackDamage { get; protected set; }
 
     public virtual void InitStat(UnitScriptable config)
     {
-        _currentHP = _maxHP = config.MaxHP();
-        _attackDice = config.AttackDice();
-        _attackRange = config.AttackRange();
+        CurrentHP = MaxHP = config.MaxHP();
+        AttackDice = config.AttackDice();
+        AttackRange = config.AttackRange();
+        AttackDamage = config.AttackDamage();
     }
 }

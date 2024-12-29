@@ -14,6 +14,8 @@ public class UnitMovement : MonoBehaviour
     [SerializeField] protected List<BaseTileOnBoard> _planningNode = new List<BaseTileOnBoard>();
     [SerializeField] protected int _moveAllow;
 
+    public BaseTileOnBoard StandingNode => _standingNode;
+
     protected virtual void OnEnable()
     {
         BaseTileOnBoard.OnHoverTile -= OnNodeClicked;
@@ -38,12 +40,7 @@ public class UnitMovement : MonoBehaviour
         //check turn, check số lượt move
         if (!IsMoveable(nodeClicked))
             return;
-
-        foreach (SquareTileOnBoardNode node in _planningNode)
-        {
-            node.CleanChosableMyNeighbor();
-        }
-        _planningNode.Add(nodeClicked);
+        OnNodeClicked_AddNode(nodeClicked);
     }
     protected virtual void OnNodeClicked_RemoveNode(BaseTileOnBoard nodeClicked)
     {

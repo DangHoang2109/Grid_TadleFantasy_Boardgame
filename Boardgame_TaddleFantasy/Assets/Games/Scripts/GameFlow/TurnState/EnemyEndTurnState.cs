@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerEndTurnState : ITurnState
+public class EnemyEndTurnState : ITurnState
 {
     public override void Enter()
     {
         base.Enter();
 
-        Debug.Log($"Enter state PlayerEndTurnState");
+        Debug.Log($"Enter state EnemyEndTurnState");
         OnEnterState?.Invoke();
 
-        InGameManager.Instance.ChangeGameState(GameState.Enemy_Turn);
+        InGameManager.Instance.ChangeGameState(GameState.Player_Turn);
     }
     public override void Exit()
     {
-        base.Exit(); Debug.Log($"exit state PlayerEndTurnState");
+        base.Exit(); Debug.Log($"exit state EnemyEndTurnState");
         OnExitState?.Invoke();
     }
     public static System.Action OnEnterState, OnExitState;
@@ -38,3 +38,4 @@ public class PlayerEndTurnState : ITurnState
         OnExitState -= cb;
     }
 }
+

@@ -40,6 +40,6 @@ public class PlayerMovement : UnitMovement
     protected override void OnCompleteMoveAllNodes()
     {
         base.OnCompleteMoveAllNodes();
-        InGameManager.Instance.ChangeTurnState(TurnState.End_Turn);
+        InGameManager.Instance.ExistState(TurnState.Moving_Phase);
     }
 }

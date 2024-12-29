@@ -11,14 +11,17 @@ public class UnitManager : MonoBehaviour
 
     [SerializeField] private Transform tfUnit;
     [Header("Unit Player")]
-    [SerializeField] private Unit _unitPrefab;
+    [SerializeField] private PlayerUnit _unitPrefab;
     [SerializeField] List<PlayerUnit> players = new List<PlayerUnit>();
+    [SerializeField] private List<PlayerScriptable> _playerConfigs;
+    [SerializeField] PlayerType _choosingCharacter;
 
     [Header("Enemy")]
     public EnemyManager enemyManager;
 
     public PlayerUnit GetPlayerByTurnIndex(int index) => players[index];
     public PlayerUnit MainPlayer => GetPlayerByTurnIndex(0);
+    public PlayerScriptable GetPlayerConfig(PlayerType type) => _playerConfigs.Find(e => e.playerType == type);
 
     public void Init()
     {
@@ -28,9 +31,10 @@ public class UnitManager : MonoBehaviour
     void SpawnUnits()
     {
         var _spawnedPlayer = Instantiate(_unitPrefab, tfUnit); //_playerNodeBase.transform.position, Quaternion.identity
-        players.Add(_spawnedPlayer as PlayerUnit);
+        players.Add(_spawnedPlayer);
 
-        _spawnedPlayer.Init(null);
+        var pConfig = GetPlayerConfig(_choosingCharacter);
+        _spawnedPlayer.Init(pConfig);
     }
     public void StartGame_PlayerPickNode(PlayerUnit p, BaseTileOnBoard node) 
     {

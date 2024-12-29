@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 4545883318976824305, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 89fb7e34eafa254458190c6ca9a4716b, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4545883318976824305, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
       propertyPath: m_SortingLayer
       value: 3
@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4545883318976824305, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4629831389608322025, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -86,6 +86,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5027687273044455910, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8547343314166260500}
+    - targetCorrespondingSourceObject: {fileID: 5027687273044455910, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1578814686600662545}
   m_SourcePrefab: {fileID: 100100000, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
 --- !u!1 &1013854432607873804 stripped
 GameObject:
@@ -107,7 +110,8 @@ MonoBehaviour:
   _renderer: {fileID: 8413349832946735387}
   _myMovement: {fileID: 0}
   _myStat: {fileID: 0}
-  _sprite: {fileID: 21300000, guid: 89fb7e34eafa254458190c6ca9a4716b, type: 3}
+  _myCombat: {fileID: 0}
+  PlayerType: 0
 --- !u!114 &8714409785312914702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,10 +140,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 379dfade9ad0db74cb9162cdab317831, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentHP: 0
-  _maxHP: 0
-  _attackDice: 0
-  _attackRange: 0
+--- !u!114 &1578814686600662545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013854432607873804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ee8c85b949860a45b72818036eaecb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &8413349832946735387 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4545883318976824305, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}

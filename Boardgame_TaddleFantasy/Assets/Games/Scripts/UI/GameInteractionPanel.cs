@@ -14,6 +14,9 @@ public class GameInteractionPanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI txtMoveLeft;
     [SerializeField] Button btnMove;
 
+    [Header("Attack")]
+    [SerializeField] TextMeshProUGUI txtAttackDice;
+    [SerializeField] Button btnAttacl;
 
     private void Start()
     {
@@ -21,6 +24,7 @@ public class GameInteractionPanel : MonoBehaviour
         PlayerMainPhaseTurnState.RegisterExitStateCallback(ExitMainPhase);
 
         PlayerMovement.OnMovementPlan += OnMovementPlanned;
+        PlayerProperty.onAttackDicesChange += OnAttackDicesChanged;
     }
 
     void EnterMainPhase()
@@ -43,6 +47,21 @@ public class GameInteractionPanel : MonoBehaviour
 
     void OnMovementPlanned(string strMoveLeft)
     {
-        this.txtMoveLeft.text = strMoveLeft;
+        this.txtMoveLeft.text = $"Move ({strMoveLeft})";
+    }
+
+    public void OnClickAttack()
+    {
+        InGameManager.Instance.ChangeTurnState(TurnState.Battle_Phase);
+    }
+
+    void OnAttackDicesChanged(int attackDice)
+    {
+        this.txtAttackDice.text = $"Attack ({attackDice})";
+    }
+
+    public void OnClickEndTurn()
+    {
+        InGameManager.Instance.ChangeTurnState(TurnState.End_Turn);
     }
 }

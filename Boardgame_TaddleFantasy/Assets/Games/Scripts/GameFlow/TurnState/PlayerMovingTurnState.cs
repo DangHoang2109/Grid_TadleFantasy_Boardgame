@@ -18,7 +18,7 @@ public class PlayerMovingTurnState : ITurnState
         OnExitState?.Invoke();
         Debug.Log($"Exit state PlayerMovingTurnState");
         //change state
-        InGameManager.Instance.ChangeTurnState(TurnState.End_Turn);
+        InGameManager.Instance.ChangeTurnState(TurnState.Main_Phase);
     }
 
     public static System.Action OnEnterState, OnExitState;

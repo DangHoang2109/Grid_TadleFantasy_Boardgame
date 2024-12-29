@@ -6,14 +6,28 @@ using UnityEngine;
 
 public class PlayerUnit : Unit
 {
-    [SerializeField] Sprite _sprite;
-
+    [SerializeField] PlayerType PlayerType;
     public PlayerMovement MyMovement => _myMovement as PlayerMovement;
-
+    public PlayerProperty MyProperty => _myStat as PlayerProperty;
+    
     public override void Init(Sprite sprite)
     {
         base.Init(sprite);
-        _renderer.sprite = _sprite;
+    }
+    public void Init(PlayerScriptable playerScriptable)
+    {
+        this.PlayerType = playerScriptable.playerType;
+        //set visual
+        GameObject visualObject = playerScriptable.visual;
+        if (visualObject != null)
+        {
+            Instantiate(visualObject, this.transform);
+        }
+        else
+        {
+        }
+        //set stat
+        Init_PlayerStat(playerScriptable);
     }
     public override void SetStandingNode(BaseTileOnBoard node)
     {
@@ -21,8 +35,9 @@ public class PlayerUnit : Unit
         this.transform.position = node.transform.position;
         _myMovement.SetMeToNode(node);
     }
-    void Init_PlayerStat(EnemyScriptable enemyScriptable)
+    void Init_PlayerStat(PlayerScriptable playerScriptable)
     {
-        this.MyMovement.SetMovementAllow(enemyScriptable.MoveRange());
+        this.MyProperty.InitStat(playerScriptable);
+        this.MyMovement.SetMovementAllow(playerScriptable.MoveRange());
     }
 }
