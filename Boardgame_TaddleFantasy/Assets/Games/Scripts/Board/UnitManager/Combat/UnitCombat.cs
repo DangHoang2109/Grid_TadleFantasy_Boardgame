@@ -20,11 +20,11 @@ public class UnitCombat : MonoBehaviour
         return CombatManager.GenerateRollingAttackDiceResult(this._unitProperty.AttackDice);
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         _unit ??= GetComponent<Unit>();
     }
-
+     
 
     public virtual void TakeDamage(int damage)
     {
