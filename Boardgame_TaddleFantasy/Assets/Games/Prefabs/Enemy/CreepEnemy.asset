@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visual: {fileID: 3790656364885370241, guid: d4d81ae6033bb5a4e8334532d24e9a8c, type: 3}
   maxHp: 1
-  attackDmg: 1
+  attackDmg: 3
   attackDice: 1
   killedReward: 2
   attackRange: 1
