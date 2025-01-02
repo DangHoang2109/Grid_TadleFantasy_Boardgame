@@ -25,7 +25,6 @@ public class InGameManager : MonoBehaviour
     //State, Player Index who taking turn
     public static System.Action<TurnState, int> OnTurnStateChanged;
 
-
     public void ChangeGameState(GameState state)
     {
         if (state != GameState.Player_Turn && _state == state)

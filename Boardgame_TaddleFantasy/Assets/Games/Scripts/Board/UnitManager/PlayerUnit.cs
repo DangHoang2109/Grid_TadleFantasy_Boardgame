@@ -7,6 +7,9 @@ using UnityEngine;
 public class PlayerUnit : Unit
 {
     [SerializeField] PlayerType PlayerType;
+    private PlayerScriptable characterConfig;
+
+    public PlayerScriptable MyCharacterConfig => characterConfig;
     public PlayerMovement MyMovement => _myMovement as PlayerMovement;
     public PlayerProperty MyProperty => _myStat as PlayerProperty;
     
@@ -16,6 +19,7 @@ public class PlayerUnit : Unit
     }
     public void Init(PlayerScriptable playerScriptable)
     {
+        characterConfig = playerScriptable;
         this.PlayerType = playerScriptable.playerType;
         //set visual
         GameObject visualObject = playerScriptable.visual;

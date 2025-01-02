@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UnitScriptable : ScriptableObject
 {
+    [SerializeField] protected string unitName;
     [SerializeField] public GameObject visual;
     [SerializeField] protected int maxHp;
     [SerializeField] protected int attackDmg;
@@ -12,6 +13,7 @@ public class UnitScriptable : ScriptableObject
     [SerializeField] protected int attackRange;
     [SerializeField] protected int moveRange;
 
+    public virtual string Name() => unitName;
     public virtual int MaxHP() => maxHp;
     public virtual int AttackDamage() => attackDmg;
     public virtual int AttackDice() => attackDice;
