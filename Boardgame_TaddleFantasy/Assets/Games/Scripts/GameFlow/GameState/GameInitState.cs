@@ -18,6 +18,7 @@ public class GameInitState : IGameState
 
         UnitManager.Instance.Init();
         GridManager.Instance.InitBoard();
+        FloatBubbleManager.Instance.Init();
     }
     void OnInitComplete()
     {

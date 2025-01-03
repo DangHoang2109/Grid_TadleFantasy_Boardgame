@@ -21,5 +21,14 @@ public class UnitProperty : MonoBehaviour
         AttackRange = config.AttackRange();
         AttackDamage = config.AttackDamage();
     }
-    public virtual void UpdateHP(int change) => CurrentHP = Mathf.Clamp(CurrentHP + change, 0, MaxHP); 
+    public virtual void UpdateHP(int change)
+    {
+        CurrentHP = Mathf.Clamp(CurrentHP + change, 0, MaxHP);
+        SpawnFloatBuble(change);
+    } 
+    protected virtual void SpawnFloatBuble(int change)
+    {
+        FloatBubbleManager.Instance.SpawnBubble(text: change.ToString(), color: change < 0 ? Color.red : Color.green,
+            position: InGameCamera.GameCamera.WorldToScreenPoint(this.transform.position));
+    }
 }
