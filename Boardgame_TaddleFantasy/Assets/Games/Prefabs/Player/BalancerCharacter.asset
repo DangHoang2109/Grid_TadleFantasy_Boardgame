@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46e5e6ac5654479498c790de85e6d353, type: 3}
   m_Name: BalancerCharacter
   m_EditorClassIdentifier: 
+  unitName: Balancer
   visual: {fileID: 4548382590940810444, guid: 1ee3c71d9f732204189ee3097f0c7ebd, type: 3}
   maxHp: 50
   attackDmg: 3

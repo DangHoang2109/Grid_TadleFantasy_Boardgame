@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCharacterInfoUI : MonoBehaviour
 {
+    [SerializeField] Image _imgCharAvatar;
     [SerializeField] TextMeshProUGUI _tmpCharacterName;
     [SerializeField] TextMeshProUGUI _tmpAP;
     [SerializeField] ProgressSliderUI _progressHPPts;
@@ -34,16 +36,17 @@ public class PlayerCharacterInfoUI : MonoBehaviour
             _tmpCharacterName.text = charConfig.Name();
 
             var charStat = mainPlayer.MyProperty;
-            _tmpAP.text = charStat.CurrentAP.ToString("##");
+            _tmpAP.text = $"AP: {charStat.CurrentAP}";
 
             PlayerProperty.onAPChange -= OnChangeAPPts;
             PlayerProperty.onAPChange += OnChangeAPPts;
 
-            _progressHPPts.UpdateFillAndProgress()
+            _progressHPPts.UpdateFillAndProgress(charStat.CurrentHP, charStat.MaxHP, charStat.HPString);
         }
     }
     void OnChangeAPPts(int change, int currentValue)
     {
-        _tmpAP.text = currentValue.ToString("##");
+        FloatBubbleManager.Instance.SpawnBubble_HelperValueColor(change, _tmpAP.transform.position);
+        _tmpAP.text = $"AP: {currentValue}";
     }
 }

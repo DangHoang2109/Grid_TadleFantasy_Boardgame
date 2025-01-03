@@ -18,6 +18,17 @@ public class GameInteractionPanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI txtAttackDice;
     [SerializeField] Button btnAttacl;
 
+    private PlayerUnit playerUnit;
+    protected PlayerUnit MainPlayer
+    {
+        get
+        {
+            if (playerUnit == null)
+                playerUnit = UnitManager.Instance.MainPlayer;
+            return playerUnit;
+        }
+    }
+    private PlayerProperty PlayerStat => MainPlayer?.MyProperty as PlayerProperty;
     private void Start()
     {
         PlayerMainPhaseTurnState.RegisterEnterStateCallback(EnterMainPhase);
@@ -25,8 +36,12 @@ public class GameInteractionPanel : MonoBehaviour
 
         PlayerMovement.OnMovementPlan += OnMovementPlanned;
         PlayerProperty.onAttackDicesChange += OnAttackDicesChanged;
+        PlayerProperty.onAPChange += OnAPChange;
     }
-
+    private void OnAPChange(int change, int current)
+    {
+        btnMove.interactable = btnAttacl.interactable = current > 0;
+    }
     void EnterMainPhase()
     {
         Debug.Log("GameInteractionPanel EnterMainPhase");
@@ -42,6 +57,9 @@ public class GameInteractionPanel : MonoBehaviour
     }
     public void OnClickMove()
     {
+        if(PlayerStat?.CurrentAP <= 0 ) 
+            return;
+        PlayerStat?.UseAP();
         InGameManager.Instance.ChangeTurnState(TurnState.Moving_Phase);
     }
 
@@ -52,6 +70,9 @@ public class GameInteractionPanel : MonoBehaviour
 
     public void OnClickAttack()
     {
+        if (PlayerStat?.CurrentAP <= 0)
+            return;
+        PlayerStat?.UseAP();
         InGameManager.Instance.ChangeTurnState(TurnState.Battle_Phase);
     }
 

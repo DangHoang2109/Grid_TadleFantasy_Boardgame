@@ -14,6 +14,7 @@ public class UnitProperty : MonoBehaviour
     public virtual int AttackRange { get; protected set; }
     public virtual int AttackDamage { get; protected set; }
 
+    public virtual string HPString => $"{CurrentHP}/{MaxHP}";
     public virtual void InitStat(UnitScriptable config)
     {
         CurrentHP = MaxHP = config.MaxHP();

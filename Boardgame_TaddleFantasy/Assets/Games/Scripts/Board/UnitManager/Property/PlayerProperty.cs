@@ -9,7 +9,9 @@ public class PlayerProperty : UnitProperty
 
 
     public static System.Action<int> onAttackDicesChange;
-    //Change, Current value
+    /// <summary>
+    /// Change, Current value
+    /// </summary>
     public static System.Action<int,int> onAPChange;
 
     public override void InitStat(UnitScriptable config)
@@ -24,5 +26,8 @@ public class PlayerProperty : UnitProperty
         CurrentAP = Mathf.Clamp(CurrentAP + change, 0, int.MaxValue);
         onAPChange?.Invoke(change,CurrentAP);
     }
-
+    public virtual void UseAP(int use = 1)
+    {
+        UpdateAP( - use);
+    }
 }

@@ -100,8 +100,11 @@ public enum GameState
 }
 public enum TurnState
 {
+    //Init game
+    None = 0,
     //Player: Add Action Pts, Enemy: Spawn new Enemy
-    Player_StandBy_Phase = 0,
+    [Type(typeof(PlayerStandbyTurnState))]
+    Player_StandBy_Phase,
     [Type(typeof(EnemyInviteTurnState))]
     Enemy_Invite_Phase,
 

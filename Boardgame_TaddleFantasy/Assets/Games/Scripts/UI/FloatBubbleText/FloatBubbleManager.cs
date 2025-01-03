@@ -32,6 +32,10 @@ public class FloatBubbleManager : MonoBehaviour
         t.Initialize( text, color, position, OnCompleteBubleAnim);
         return t;
     }
+    public FloatBubbleText SpawnBubble_HelperValueColor(int value, Vector3 position)
+    {
+        return SpawnBubble(value.ToString(), color: value < 0 ? Color.red : Color.green, position);
+    }
     void OnCompleteBubleAnim(FloatBubbleText caller)
     {
         poolBuble.Release(caller);

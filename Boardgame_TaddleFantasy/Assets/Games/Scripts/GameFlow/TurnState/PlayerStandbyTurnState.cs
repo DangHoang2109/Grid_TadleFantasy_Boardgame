@@ -2,22 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GamePlayerTurnState : IGameState
+public class PlayerStandbyTurnState : ITurnState
 {
+    public PlayerProperty PStat => this.PlayerTurn.MyProperty;
+    public int APStartTurn = 3;
     public override void Enter()
     {
         base.Enter();
         OnEnterState?.Invoke();
-        //show UI turn depend on the player
-        Debug.Log("Enter GamePlayerTurnState");
-        InGameManager.Instance.ChangeTurnState(TurnState.Player_StandBy_Phase);
+
+        PStat.UpdateAP(APStartTurn);
+        Debug.Log("Enter PlayerStandbyTurnState");
+
+        InGameManager.Instance.ChangeTurnState(TurnState.Main_Phase);
     }
+
     public override void Exit()
     {
         base.Exit();
         OnExitState?.Invoke();
 
-        Debug.Log("Exit GameInitState");
+        Debug.Log("Exit PlayerStandbyTurnState");
     }
 
     public static System.Action OnEnterState, OnExitState;
@@ -40,4 +45,3 @@ public class GamePlayerTurnState : IGameState
         OnExitState -= cb;
     }
 }
-
