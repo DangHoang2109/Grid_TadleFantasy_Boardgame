@@ -5,6 +5,7 @@ using System.Linq;
 using Taddle_Fantasy;
 using UnityEngine;
 using UnityEngine.Pool;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -97,9 +98,10 @@ public class EnemyManager : MonoBehaviour
     }
     public void KillEnemies(List<EnemyUnit> es)
     {
-        foreach (var e in es)
+        int eCount = es.Count-1;
+        for (int i = eCount; i >= 0; i--)
         {
-            KillEnemy(e);
+            KillEnemy(es[i]);
         }
     }
     public (List<BaseTileOnBoard>, EnemyType, int) GenerateInviteResult()
@@ -126,6 +128,13 @@ public class EnemyManager : MonoBehaviour
 
         return new(nodesToSpawn, typeToSpawn, Mathf.Clamp(_enemyAmount, 1, int.MaxValue));
     }
+
+    public void Clear()
+    {
+        KillEnemies(enemies);
+        enemies.Clear();
+    }
+
     #region Pool
     EnemyUnit OnCreate()
     {

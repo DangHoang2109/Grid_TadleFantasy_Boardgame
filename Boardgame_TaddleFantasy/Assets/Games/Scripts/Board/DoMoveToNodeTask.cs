@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Taddle_Fantasy;
 using UnityEngine;
 
 public class DoMoveToNodeTask : ITaskSchedule
@@ -46,6 +47,22 @@ public class DoCallbackTask : ITaskSchedule
     {
         yield return new WaitForEndOfFrame();
         _callback?.Invoke();
+    }
+}
+
+public class DoResetGameTask : ITaskSchedule
+{
+    public DoResetGameTask()
+    {
+    }
+    public override IEnumerator DoTask()
+    {
+        yield return new WaitForEndOfFrame();
+        UnitManager.Instance.Clear();
+        GridManager.Instance.Clear();
+
+        yield return new WaitForSeconds(0.5f);
+        InGameManager.Instance.ChangeGameState(GameState.Init);
     }
 }
 public class DoAnimationFlipTilesTask : ITaskSchedule

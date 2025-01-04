@@ -12,7 +12,7 @@ public class GameEndState : IGameState
         Debug.Log("Enter GameEndState");
 
         //Show EndGame Popup
-
+        LoseGamePopup.Show();
     }
     public override void Exit()
     {

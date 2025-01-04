@@ -6,6 +6,10 @@ public class TestingButton : MonoBehaviour
 {
     public void ClickTesting()
     {
-        InGameManager.Instance.ChangeTurnState(TurnState.Enemy_Battle_Phase);
+        UnitManager.Instance.MainPlayer.MyCombat.TakeDamage(100);
+    }
+    public void ClickTest2()
+    {
+        InGameManager.Instance.ChangeGameState(GameState.Init);
     }
 }

@@ -17,12 +17,16 @@ public class GameInitState : IGameState
         GridManager.onGridGeneratedComplete += OnInitComplete;
 
         UnitManager.Instance.Init();
-        GridManager.Instance.InitBoard();
         FloatBubbleManager.Instance.Init();
+
+
+        //Must be the last
+        GridManager.Instance.InitBoard();
     }
     void OnInitComplete()
     {
         InGameManager.Instance.ChangeGameState(GameState.Start);
+        GridManager.onGridGeneratedComplete -= OnInitComplete;
     }
     public override void Exit()
     {

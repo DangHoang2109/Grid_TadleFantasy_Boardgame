@@ -1,25 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Taddle_Fantasy;
 
-public class GamePlayerTurnState : IGameState
+public class GameResetState : IGameState
 {
     public override void Enter()
     {
         base.Enter();
         OnEnterState?.Invoke();
         //show UI turn depend on the player
-        Debug.Log("Enter GamePlayerTurnState");
-        InGameManager.Instance.ChangeTurnState(TurnState.Player_StandBy_Phase);
+        Debug.Log("Enter GameResetState");
+
+        DoResetGameTask task = new DoResetGameTask();
+        InGameTaskManager.Instance.ScheduleNewTask(task);
     }
     public override void Exit()
     {
         base.Exit();
         OnExitState?.Invoke();
 
-        Debug.Log("Exit GamePlayerTurnState");
+        Debug.Log("Exit GameResetState");
     }
-
     public static System.Action OnEnterState, OnExitState;
     public static void RegisterEnterStateCallback(System.Action cb)
     {

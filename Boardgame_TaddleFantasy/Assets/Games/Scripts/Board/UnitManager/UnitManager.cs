@@ -44,4 +44,14 @@ public class UnitManager : MonoBehaviour
     {
         MainPlayer.SetStandingNode(node);
     }
+
+    public void Clear()
+    {
+        for (int i = players.Count - 1; i >= 0; i--)
+        {
+            Destroy(players[i].gameObject);
+        }
+        players.Clear();
+        enemyManager.Clear();
+    }
 }

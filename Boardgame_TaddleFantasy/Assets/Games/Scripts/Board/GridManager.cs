@@ -28,7 +28,7 @@ namespace Taddle_Fantasy
         [SerializeField] protected Dictionary<int, BaseTileOnBoard> grids = new Dictionary<int, BaseTileOnBoard>();
 
         protected List<BaseTileOnBoard> tiles = new List<BaseTileOnBoard>();
-        public List<BaseTileOnBoard> Items => this.grids.Values.ToList();
+        public List<BaseTileOnBoard> Items => tiles;
         #endregion
 
         #region Event
@@ -91,7 +91,7 @@ namespace Taddle_Fantasy
                 }
             }
 
-            foreach (var t in Items)
+            foreach (var t in tiles)
             {
                 List<BaseTileOnBoard> neighBor = new List<BaseTileOnBoard>();
                 foreach (var tile in BaseTileOnBoard.Dirs.Select(dir => GetTileByRowCol<BaseTileOnBoard>(t.Row + dir.x, t.Col + dir.y)).Where(tile => tile != null))
@@ -147,6 +147,15 @@ namespace Taddle_Fantasy
                 DoAnimationFlipTilesTask flipTask = new DoAnimationFlipTilesTask(tiles, null);
                 InGameTaskManager.Instance.ScheduleNewTask(flipTask);
             }
+        }
+
+        public void Clear()
+        {
+            tiles.ForEach(t =>
+            {
+                t.FaceDown();
+                //t.gameObject.SetActive(false);
+            });
         }
     }
 }

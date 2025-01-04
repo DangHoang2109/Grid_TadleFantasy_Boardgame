@@ -72,6 +72,12 @@ public class InGameManager : MonoBehaviour
         }
     }
 
+
+    public void ResetTheGame()
+    {
+        //Clear previous state
+        ChangeGameState(GameState.Reset_ClearingGame);
+    }
     #region Test
     private void Start()
     {
@@ -98,6 +104,9 @@ public enum GameState
 
     [Type(typeof(GameEndState))]
     EndGame = 4,
+
+    [Type(typeof(GameResetState))]
+    Reset_ClearingGame = 5,
 }
 public enum TurnState
 {

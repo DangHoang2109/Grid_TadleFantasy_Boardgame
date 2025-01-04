@@ -12,21 +12,20 @@ public class PlayerCharacterInfoUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _tmpAP;
     [SerializeField] ProgressSliderUI _progressHPPts;
 
-    private PlayerProperty PlayerProperty => UnitManager.Instance.MainPlayer.MyProperty as PlayerProperty;
+    private PlayerProperty PlayerProperty => UnitManager.Instance.MainPlayer.MyProperty;
 
     private void OnEnable()
     {
-        InGameManager.OnGameStateChanged -= OnGameStateChange;
-        InGameManager.OnGameStateChanged += OnGameStateChange;
+        GameStartState.OnEnterState -= OnGameEnterStart;
+        GameStartState.OnEnterState += OnGameEnterStart;
+
+        GameResetState.OnEnterState -= OnGameEnterReset;
+        GameResetState.OnEnterState += OnGameEnterReset;
     }
 
-    void OnGameStateChange(GameState state)
+    void OnGameEnterStart()
     {
-        if(state == GameState.Start)
-        {
-            OnGameStartComplete();
-            InGameManager.OnGameStateChanged -= OnGameStateChange;
-        }
+        OnGameStartComplete();
     }
     void OnGameStartComplete()
     {
@@ -55,5 +54,16 @@ public class PlayerCharacterInfoUI : MonoBehaviour
     void OnChangeHPPts(int change, int currentValue, int maxValue)
     {
         _progressHPPts.UpdateFillAndProgress(currentValue, maxValue, this.PlayerProperty.HPString);
+    }
+
+    void OnGameEnterReset()
+    {
+        OnGameResetComplete();
+    }
+    void OnGameResetComplete()
+    {
+        _tmpCharacterName.text = "--";
+        _tmpAP.text = $"AP: 0";
+        _progressHPPts.UpdateFillAndProgress(0, 50, "--");
     }
 }
