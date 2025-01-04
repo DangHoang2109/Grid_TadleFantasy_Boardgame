@@ -36,6 +36,25 @@ public class DoInviteEnemyTask : DoEnemyBaseTask
     }
 }
 
+public class DoEnemyKilledTask : DoEnemyBaseTask
+{
+    private EnemyUnit _unit;
+    public DoEnemyKilledTask(Unit unit)
+    {
+        _unit = unit as EnemyUnit;
+    }
+    public override IEnumerator DoTask()
+    {
+        yield return new WaitForEndOfFrame();
+
+        //bool isComplete = false;
+        if (_unit == null)
+            yield break;
+        EnemyManager.Instance.KillEnemy(this._unit);
+
+        //yield return new WaitUntil(() => isComplete);
+    }
+}
 public class DoEnemyCastSkillTask : DoEnemyBaseTask
 {
 }

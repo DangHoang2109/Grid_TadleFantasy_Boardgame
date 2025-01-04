@@ -30,4 +30,11 @@ public class PlayerProperty : UnitProperty
     {
         UpdateAP( - use);
     }
+    public override void Die()
+    {
+        base.Die();
+
+        DoMainPlayerKilledTask task = new DoMainPlayerKilledTask(this._unit);
+        InGameTaskManager.Instance.ScheduleNewTask(task);
+    }
 }

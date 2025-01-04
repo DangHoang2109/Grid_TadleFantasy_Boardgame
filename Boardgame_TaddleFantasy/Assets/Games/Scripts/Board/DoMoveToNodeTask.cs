@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class DoMoveToNodeTask : ITaskSchedule
 {
@@ -136,5 +135,20 @@ public class DoAttacksTask : ITaskSchedule
         }
 
         _callback?.Invoke(isWin);
+    }
+}
+
+public class DoMainPlayerKilledTask : ITaskSchedule
+{
+    private PlayerUnit _unit;
+    public DoMainPlayerKilledTask(Unit unit)
+    {
+        _unit = unit as PlayerUnit;
+    }
+    public override IEnumerator DoTask()
+    {
+        yield return new WaitForEndOfFrame();
+        Debug.LogError("Main Player Die, Game End");
+        InGameManager.Instance.ChangeGameState(GameState.EndGame);
     }
 }

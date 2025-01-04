@@ -10,4 +10,10 @@ public class EnemyProperty : UnitProperty
         EnemyScriptable enemyScriptable = config as EnemyScriptable;
 
     }
+    public override void Die()
+    {
+        base.Die();
+        DoEnemyKilledTask task = new DoEnemyKilledTask(this._unit);
+        InGameTaskManager.Instance.ScheduleNewTask(task);
+    }
 }

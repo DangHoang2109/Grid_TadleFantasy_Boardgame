@@ -9,6 +9,7 @@ public class EnemyCombat : UnitCombat
     public override void Die()
     {
         base.Die();
-        EnemyManager.Instance.KillEnemy(EnemyUnit);
+        //DoEnemyKilledTask task = new DoEnemyKilledTask(EnemyUnit);
+        //InGameTaskManager.Instance.ScheduleNewTask(task);
     }
 }

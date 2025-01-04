@@ -96,6 +96,7 @@ public enum GameState
     [Type(typeof(GamePlayerTurnState))]
     Player_Turn = 3,
 
+    [Type(typeof(GameEndState))]
     EndGame = 4,
 }
 public enum TurnState

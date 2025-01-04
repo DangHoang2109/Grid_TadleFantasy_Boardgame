@@ -12,6 +12,7 @@ public class PlayerCharacterInfoUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI _tmpAP;
     [SerializeField] ProgressSliderUI _progressHPPts;
 
+    private PlayerProperty PlayerProperty => UnitManager.Instance.MainPlayer.MyProperty as PlayerProperty;
 
     private void OnEnable()
     {
@@ -42,11 +43,17 @@ public class PlayerCharacterInfoUI : MonoBehaviour
             PlayerProperty.onAPChange += OnChangeAPPts;
 
             _progressHPPts.UpdateFillAndProgress(charStat.CurrentHP, charStat.MaxHP, charStat.HPString);
+            charStat.onHPChange -= OnChangeHPPts;
+            charStat.onHPChange += OnChangeHPPts;
         }
     }
     void OnChangeAPPts(int change, int currentValue)
     {
         FloatBubbleManager.Instance.SpawnBubble_HelperValueColor(change, _tmpAP.transform.position);
         _tmpAP.text = $"AP: {currentValue}";
+    }
+    void OnChangeHPPts(int change, int currentValue, int maxValue)
+    {
+        _progressHPPts.UpdateFillAndProgress(currentValue, maxValue, this.PlayerProperty.HPString);
     }
 }
