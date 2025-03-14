@@ -14,4 +14,14 @@ public class CombatManager : MonoBehaviour
         for (int i = 0; i < dices; i++) { total += D6.Random(); }
         return total;
     }
+    public static int GenerateAttackPoint(List<Unit> enemiesInSameNode)
+    {
+        int total = 0;
+        foreach (var enemy in enemiesInSameNode)
+        {
+            total += enemy?.MyStat?.AttackPower ?? 0;
+        }
+        return total;
+    }
+    
 }

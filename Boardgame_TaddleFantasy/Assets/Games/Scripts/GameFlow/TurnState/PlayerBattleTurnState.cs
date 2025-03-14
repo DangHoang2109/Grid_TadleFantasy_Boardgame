@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBattleTurnState : ITurnState
 {
@@ -10,8 +11,10 @@ public class PlayerBattleTurnState : ITurnState
         var standingNode = this.PlayerTurn.StandingNode;
         if (standingNode == null)
             return;
-
-        var enemiesInSameNode = standingNode.UnitsOnTiles();
+        
+        
+        List<Unit> enemiesInSameNode = standingNode.UnitsOnTiles();
+        
         if (enemiesInSameNode != null && enemiesInSameNode.Count > 0)
         {
             enemiesInSameNode = enemiesInSameNode.FindAll(u => u is EnemyUnit);
@@ -21,10 +24,11 @@ public class PlayerBattleTurnState : ITurnState
         { Exit(); return; }
 
         int playerResult = PlayerCombat.GenerateRollingAttackDiceResult();
-        int enemiesResult = CombatManager.GenerateRollingAttackDiceResult(enemiesInSameNode.Count);
-
+        int enemiesResult = CombatManager.GenerateAttackPoint(enemiesInSameNode);
+        
+        Debug.Log($"Battle Result Player --{playerResult} Enemies --{enemiesResult}");
         bool isPlayerWin = playerResult > enemiesResult;
-
+        
         DoAttackTask task = new DoAttackTask(
             attacker: this.PlayerTurn,
             defenders: enemiesInSameNode,

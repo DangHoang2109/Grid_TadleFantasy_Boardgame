@@ -16,7 +16,7 @@ public class UnitCombat : MonoBehaviour
 
     public virtual int GenerateRollingAttackDiceResult()
     {
-        return CombatManager.GenerateRollingAttackDiceResult(this._unitProperty.AttackDice);
+        return CombatManager.GenerateRollingAttackDiceResult(this._unitProperty.AttackPower);
     }
 
     protected virtual void OnEnable()

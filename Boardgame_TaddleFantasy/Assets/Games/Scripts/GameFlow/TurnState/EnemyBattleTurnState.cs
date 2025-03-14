@@ -24,8 +24,9 @@ public class EnemyBattleTurnState : ITurnState
         { Exit(); return; }
 
         int playerResult = PlayerCombated.GenerateRollingAttackDiceResult();
-        int enemiesResult = CombatManager.GenerateRollingAttackDiceResult(enemiesInSameNode.Count);
-
+        int enemiesResult = CombatManager.GenerateAttackPoint(enemiesInSameNode);
+        
+        Debug.Log($"Battle Result Player --{playerResult} Enemies --{enemiesResult}");
         bool isAttackerWin = enemiesResult > playerResult ;
 
         DoAttacksTask task = new DoAttacksTask(

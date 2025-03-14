@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerProperty : UnitProperty
 {
-    public override int AttackDice { get => base.AttackDice; protected set { base.AttackDice = value; onAttackDicesChange?.Invoke(value); } }
+    public override int AttackPower { get => base.AttackPower; protected set { base.AttackPower = value; onAttackDicesChange?.Invoke(value); } }
     public virtual int CurrentAP { get; protected set; }
 
 
